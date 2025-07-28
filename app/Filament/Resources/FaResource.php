@@ -15,6 +15,8 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Repeater;
+
 
 class FaResource extends Resource
 {
@@ -57,7 +59,119 @@ class FaResource extends Resource
                     Wizard\Step::make('Petugas')
                         ->icon('heroicon-m-user-group')
                         ->schema([
-                            // ...
+                           Card::make()
+                                ->schema([
+                                    Repeater::make('officer_service_pendetas')
+                                        ->label('Pendeta')
+                                        ->relationship()
+                                        ->schema([
+                                            Forms\Components\Select::make('user_id')
+                                                ->relationship(
+                                                    'user',
+                                                    'name',
+                                                    fn($query) => $query->whereHas('officers', fn($q) => $q->where('title', 'pendeta'))
+                                                ),
+
+                                        ])
+                                        ->collapsed(),
+                                ]),
+                            Card::make()
+                                ->schema([
+                                    Repeater::make('officer_service_worship_leaders')
+                                        ->label('Worship Leader')
+                                        ->relationship()
+                                        ->schema([
+                                            Forms\Components\Select::make('user_id')
+                                                ->relationship(
+                                                    'user',
+                                                    'name',
+                                                    fn($query) => $query->whereHas('officers', fn($q) => $q->where('title', 'wl'))
+                                                ),
+
+                                        ])
+                                        ->collapsed(),
+                                ]),
+                            Card::make()
+                                ->schema([
+                                    Repeater::make('officer_service_singers')
+                                        ->label('Singer')
+                                        ->relationship()
+                                        ->schema([
+                                            Forms\Components\Select::make('user_id')
+                                                ->relationship(
+                                                    'user',
+                                                    'name',
+                                                    fn($query) => $query->whereHas('officers', fn($q) => $q->where('title', 'singer'))
+                                                ),
+
+                                        ])
+                                        ->collapsed(),
+                                ]),
+                            Card::make()
+                                ->schema([
+                                    Repeater::make('officer_service_ushers')
+                                        ->label('Usher')
+                                        ->relationship()
+                                        ->schema([
+                                            Forms\Components\Select::make('user_id')
+                                                ->relationship(
+                                                    'user',
+                                                    'name',
+                                                    fn($query) => $query->whereHas('officers', fn($q) => $q->where('title', 'usher'))
+                                                ),
+
+
+                                        ])
+                                        ->collapsed(),
+                                ]),
+                            Card::make()
+                                ->schema([
+                                    Repeater::make('officer_service_kolektans')
+                                        ->label('Kolektan')
+                                        ->relationship()
+                                        ->schema([
+                                            Forms\Components\Select::make('user_id')
+                                                ->relationship(
+                                                    'user',
+                                                    'name',
+                                                    fn($query) => $query->whereHas('officers', fn($q) => $q->where('title', 'kolektan'))
+                                                ),
+
+                                        ])
+                                        ->collapsed(),
+                                ]),
+                            Card::make()
+                                ->schema([
+                                    Repeater::make('officer_service_multimedias')
+                                        ->label('Multimedia')
+                                        ->relationship()
+                                        ->schema([
+                                            Forms\Components\Select::make('user_id')
+                                                ->relationship(
+                                                    'user',
+                                                    'name',
+                                                    fn($query) => $query->whereHas('officers', fn($q) => $q->where('title', 'multimedia'))
+                                                ),
+
+                                        ])
+                                        ->collapsed(),
+                                ]),
+                            Card::make()
+                                ->schema([
+                                    Repeater::make('officer_service_musiks')
+                                        ->label('Musik')
+                                        ->relationship()
+                                        ->schema([
+                                            Forms\Components\Select::make('user_id')
+                                                ->relationship(
+                                                    'user',
+                                                    'name',
+                                                    fn($query) => $query->whereHas('officers', fn($q) => $q->where('title', 'musik'))
+                                                ),
+
+                                        ])
+                                        ->collapsed(),
+                                ]),
                         ]),
                 ])
                     ->columnSpanFull(),
