@@ -42,14 +42,15 @@ class CsrResource extends Resource
                                         ->default('CSR'),
                                     Forms\Components\TextInput::make('title')
                                         ->label('Judul Program')
-                                        ->maxLength(255)
-                                        ->default(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord ? 'Program CSR' : null)
-                                        ->live(onBlur: true)
-                                        ->afterStateUpdated(function ($state, callable $set) {
-                                            if ($state) {
-                                                $set('announcement.title', $state);
-                                            }
-                                        }),
+                                        // ->maxLength(255)
+                                        // ->default(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord ? 'Program CSR' : null)
+                                        // ->live(onBlur: true)
+                                        // ->afterStateUpdated(function ($state, callable $set) {
+                                        //     if ($state) {
+                                        //         $set('announcement.title', $state);
+                                        //     }
+                                        // }),
+                                        ->default('Program CSR'),
                                     Forms\Components\DatePicker::make('held_at')
                                         ->required(),
                                     Forms\Components\TimePicker::make('start_time'),
@@ -65,9 +66,9 @@ class CsrResource extends Resource
                             Card::make()
                                 ->relationship('announcement')
                                 ->schema([
-                                    Forms\Components\Hidden::make('title')
-                                        ->required()
-                                        ->dehydrated(true),
+                                    Forms\Components\TextInput::make('title')
+                                        ->required(),
+                                        // ->dehydrated(true),
                                     Forms\Components\FileUpload::make('thumbnail')
                                         ->image()
                                         ->imageEditor()

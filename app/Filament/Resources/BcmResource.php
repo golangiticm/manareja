@@ -44,13 +44,14 @@ class BcmResource extends Resource
                                     Forms\Components\TextInput::make('title')
                                         ->label('Judul Program')
                                         ->maxLength(255)
-                                        ->default(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord ? 'Program BCM' : null)
-                                        ->live(onBlur: true)
-                                        ->afterStateUpdated(function ($state, callable $set) {
-                                            if ($state) {
-                                                $set('announcement.title', $state);
-                                            }
-                                        }),
+                                        // ->default(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord ? 'Program BCM' : null)
+                                        // ->live(onBlur: true)
+                                        // ->afterStateUpdated(function ($state, callable $set) {
+                                        //     if ($state) {
+                                        //         $set('announcement.title', $state);
+                                        //     }
+                                        // }),
+                                        ->default('Program BCM'),
                                     Forms\Components\DatePicker::make('held_at')
                                         ->required(),
                                     Forms\Components\TimePicker::make('start_time'),
@@ -66,9 +67,9 @@ class BcmResource extends Resource
                             Card::make()
                                 ->relationship('announcement')
                                 ->schema([
-                                    Forms\Components\Hidden::make('title')
-                                        ->required()
-                                        ->dehydrated(true),
+                                    Forms\Components\TextInput::make('title')
+                                        ->required(),
+                                        // ->dehydrated(true),
                                     Forms\Components\FileUpload::make('thumbnail')
                                         ->image()
                                         ->imageEditor()
