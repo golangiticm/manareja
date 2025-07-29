@@ -17,7 +17,11 @@ class OfficerResource extends Resource
 {
     protected static ?string $model = Officer::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-circle';
+
+      protected static ?string $navigationGroup = 'Master User';
+
+       protected static ?string $navigationLabel = 'Petugas';
 
     public static function form(Form $form): Form
     {

@@ -70,37 +70,6 @@ class User extends Authenticatable
         return $this->hasOne(Jemaat::class);
     }
 
-
-    public function officer_service_worship_leaders()
-    {
-        return $this->hasMany(OfficerServicesWorshipLeader::class);
-    }
-    public function officer_service_pendetas()
-    {
-        return $this->hasMany(OfficerServicePendeta::class);
-    }
-
-    public function officer_service_singers()
-    {
-        return $this->hasMany(OfficerServiceSinger::class);
-    }
-
-    public function officer_service_ushers()
-    {
-        return $this->hasMany(OfficerServiceUsher::class);
-    }
-    public function officer_service_kolektans()
-    {
-        return $this->hasMany(OfficerServiceKolektan::class);
-    }
-    public function officer_service_multimedias()
-    {
-        return $this->hasMany(OfficerServiceMultimedia::class);
-    }
-    public function officer_service_musiks()
-    {
-        return $this->hasMany(OfficerServiceMusik::class);
-    }
     public function officer_service_assigments()
     {
         return $this->hasMany(OfficerServiceAssigment::class);

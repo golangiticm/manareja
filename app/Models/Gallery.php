@@ -8,29 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class Program extends Model
+class Gallery extends Model
 {
     use HasFactory, Notifiable, SoftDeletes, HasUuids;
 
-    protected $table = 'programs';
+    protected $table = 'galleries';
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $guarded = [];
 
-    public function announcement()
-    {
-        return $this->hasOne(Announcement::class);
-    }
+    protected $casts = [
+        'images' => 'array',
+        'published_at' => 'datetime',
+    ];
 
-    public function galleries()
+    public function eventable()
     {
-        return $this->morphMany(Gallery::class, 'eventable');
-    }
-
-    public function gallery_videos()
-    {
-        return $this->morphMany(GalleryVideo::class, 'eventable_video');
+        return $this->morphTo(Service::class);
     }
 }
