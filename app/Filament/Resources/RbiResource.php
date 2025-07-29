@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Repeater;
+use Filament\Support\Enums\Alignment;
 
 class RbiResource extends Resource
 {
@@ -72,7 +73,8 @@ class RbiResource extends Resource
                                                 ),
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                             Card::make()
                                 ->schema([
@@ -88,7 +90,8 @@ class RbiResource extends Resource
                                                 ),
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                             Card::make()
                                 ->schema([
@@ -104,7 +107,8 @@ class RbiResource extends Resource
                                                 ),
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                             Card::make()
                                 ->schema([
@@ -121,7 +125,8 @@ class RbiResource extends Resource
 
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                             Card::make()
                                 ->schema([
@@ -137,7 +142,8 @@ class RbiResource extends Resource
                                                 ),
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                             Card::make()
                                 ->schema([
@@ -153,7 +159,8 @@ class RbiResource extends Resource
                                                 ),
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                             Card::make()
                                 ->schema([
@@ -169,7 +176,8 @@ class RbiResource extends Resource
                                                 ),
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                         ]),
                 ])

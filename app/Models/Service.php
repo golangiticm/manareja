@@ -47,4 +47,8 @@ class Service extends Model
     {
         return $this->hasMany(OfficerServiceMusik::class);
     }
+    public function officer_service_fas()
+    {
+        return $this->hasMany(OfficerServiceFa::class);
+    }
 }

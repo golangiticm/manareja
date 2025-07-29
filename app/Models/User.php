@@ -55,6 +55,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Officer::class, 'has_officers', 'user_id', 'officer_id');
     }
 
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'has_groups', 'user_id', 'group_id');
+    }
+
+    public function leadedGroups()
+    {
+        return $this->hasMany(Group::class, 'leader');
+    }
+
     public function jemaat()
     {
         return $this->hasOne(Jemaat::class);

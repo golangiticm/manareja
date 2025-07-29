@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Repeater;
-
+use Filament\Support\Enums\Alignment;
 
 class FaResource extends Resource
 {
@@ -31,11 +31,12 @@ class FaResource extends Resource
     protected static ?string $modelLabel = 'Family Altar';
 
     protected static ?string $pluralModelLabel = 'Daftar Family Altar';
+    
 
     public static function form(Form $form): Form
     {
         return $form
-           ->schema([
+            ->schema([
                 Wizard::make([
                     Wizard\Step::make('Jadwal')
                         ->icon('heroicon-m-calendar-days')
@@ -59,7 +60,23 @@ class FaResource extends Resource
                     Wizard\Step::make('Petugas')
                         ->icon('heroicon-m-user-group')
                         ->schema([
-                           Card::make()
+                            Card::make()
+                                ->schema([
+                                    Repeater::make('officer_service_fas')
+                                        ->label('Group')
+                                        ->relationship()
+                                        ->schema([
+                                            Forms\Components\Select::make('group_id')
+                                                ->relationship(
+                                                    'group',
+                                                    'name',
+                                                ),
+
+                                        ])
+                                         ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
+                                ]),
+                            Card::make()
                                 ->schema([
                                     Repeater::make('officer_service_pendetas')
                                         ->label('Pendeta')
@@ -73,7 +90,8 @@ class FaResource extends Resource
                                                 ),
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                             Card::make()
                                 ->schema([
@@ -89,7 +107,8 @@ class FaResource extends Resource
                                                 ),
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                             Card::make()
                                 ->schema([
@@ -105,7 +124,8 @@ class FaResource extends Resource
                                                 ),
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                             Card::make()
                                 ->schema([
@@ -122,7 +142,8 @@ class FaResource extends Resource
 
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                             Card::make()
                                 ->schema([
@@ -138,7 +159,8 @@ class FaResource extends Resource
                                                 ),
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                             Card::make()
                                 ->schema([
@@ -154,7 +176,8 @@ class FaResource extends Resource
                                                 ),
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                             Card::make()
                                 ->schema([
@@ -170,7 +193,8 @@ class FaResource extends Resource
                                                 ),
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                         ]),
                 ])

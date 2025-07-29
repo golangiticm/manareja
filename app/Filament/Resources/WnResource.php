@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Repeater;
+use Filament\Support\Enums\Alignment;
 
 
 class WnResource extends Resource
@@ -73,7 +74,8 @@ class WnResource extends Resource
                                                 ),
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                             Card::make()
                                 ->schema([
@@ -89,7 +91,8 @@ class WnResource extends Resource
                                                 ),
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                             Card::make()
                                 ->schema([
@@ -105,7 +108,8 @@ class WnResource extends Resource
                                                 ),
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                             Card::make()
                                 ->schema([
@@ -122,7 +126,8 @@ class WnResource extends Resource
 
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                             Card::make()
                                 ->schema([
@@ -138,7 +143,8 @@ class WnResource extends Resource
                                                 ),
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
                             Card::make()
                                 ->schema([
@@ -154,10 +160,11 @@ class WnResource extends Resource
                                                 ),
 
                                         ])
-                                        ->collapsed(),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
                                 ]),
-                            Card::make()
-                                ->schema([
+                            // Card::make()
+                            //     ->schema([
                                     Repeater::make('officer_service_musiks')
                                         ->label('Musik')
                                         ->relationship()
@@ -170,8 +177,9 @@ class WnResource extends Resource
                                                 ),
 
                                         ])
-                                        ->collapsed(),
-                                ]),
+                                        ->addActionAlignment(Alignment::End)
+                                        ->collapsible(),
+                                // ]),
                         ]),
                 ])
                     ->columnSpanFull(),
@@ -210,6 +218,7 @@ class WnResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

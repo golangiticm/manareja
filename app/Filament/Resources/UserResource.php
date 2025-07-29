@@ -40,7 +40,7 @@ class UserResource extends Resource
                             ->columnSpan(1),
 
                         Forms\Components\DateTimePicker::make('email_verified_at')
-                        ->columnSpan(1),
+                            ->columnSpan(1),
 
                         Forms\Components\TextInput::make('password')
                             ->password()
@@ -50,6 +50,7 @@ class UserResource extends Resource
                             ->columnSpan(1), // sembunyikan di edit
 
                         Forms\Components\Select::make('officers')
+                            ->label('Petugas')
                             ->relationship('officers', 'title')
                             ->preload()
                             ->multiple()
@@ -58,9 +59,30 @@ class UserResource extends Resource
                                     ->required()
                                     ->maxLength(255),
                             ]),
+                        Forms\Components\Select::make('groups')
+                            ->label('Group')
+                            ->relationship('groups', 'name')
+                            ->preload()
+                            ->multiple()
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('name')
+                                    ->label(false)
+                                    ->placeholder('Nama Group')
+                                    ->prefixIcon('heroicon-o-tag')
+                                    ->required()
+                                    ->extraAttributes(['class' => 'no-star'])
+                                    ->maxLength(255),
+                                Forms\Components\Select::make('user_id')
+                                    ->relationship('users', 'name')
+                                    ->preload()
+                                    ->searchable()
+                                    ->label(false)
+                                    ->placeholder('Nama Pemimpin')
+                                    ->prefixIcon('heroicon-o-user-circle')
+                                    ->default(null),
+                            ]),
                     ])->columns(2),
-            ])
-            ;
+            ]);
     }
 
     public static function table(Table $table): Table
