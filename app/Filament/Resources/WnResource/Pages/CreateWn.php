@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateWn extends CreateRecord
 {
     protected static string $resource = WnResource::class;
+    
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

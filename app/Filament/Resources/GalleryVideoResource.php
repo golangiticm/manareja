@@ -8,6 +8,7 @@ use App\Models\GalleryVideo;
 use App\Models\Program;
 use App\Models\Service;
 use Filament\Forms;
+use Filament\Forms\Components\Card;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -29,41 +30,54 @@ class GalleryVideoResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('eventable_id')
-                    ->options(function () {
-                        // Ambil data dari services dan programs, digabung manual
-                        $services = Service::all()->pluck('title', 'id')->mapWithKeys(fn($title, $id) => [$id => $title]);
-                        // $programs = Program::all()->pluck('title', 'id')->mapWithKeys(fn($title, $id) => ["program:$id" => "Program - $title"]);
+                Card::make()
+                    ->schema([
+                        Forms\Components\Select::make('eventable_id')
+                            ->label('Jadwal Ibadah Terkait')
+                            ->options(function () {
+                                // Ambil data dari services dan programs, digabung manual
+                                $services = Service::all()->pluck('title', 'id')->mapWithKeys(fn($title, $id) => [$id => $title]);
+                                // $programs = Program::all()->pluck('title', 'id')->mapWithKeys(fn($title, $id) => ["program:$id" => "Program - $title"]);
 
-                        // return $services->merge($programs)->toArray();
-                        return $services;
-                    })
-                    ->preload()
-                    ->searchable()
-                    ->required(),
-                Forms\Components\Hidden::make('eventable_type')
-                    ->default('service')
-                    ->required(),
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('thumbnail')
-                    ->required()
-                    ->image()
-                    ->imageEditor()
-                    ->imageEditorAspectRatios([
-                        '16:9',
-                        '4:3',
-                        '1:1',
-                    ])
-                    ->directory('galleries')
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('link')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DatePicker::make('published_at'),
-                Forms\Components\Toggle::make('is_publish')
-                    ->required(),
+                                // return $services->merge($programs)->toArray();
+                                return $services;
+                            })
+                            ->reactive()
+                            ->afterStateUpdated(function (callable $set, $state) {
+                                $service = \App\Models\Service::find($state);
+                                if ($service) {
+                                    $set('title', $service->title);
+                                } else {
+                                    $set('title', null);
+                                }
+                            })
+                            ->preload()
+                            ->searchable()
+                            ->required(),
+                        Forms\Components\TextInput::make('title')
+                            ->readOnly()
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Hidden::make('eventable_type')
+                            ->default('service')
+                            ->required(),
+                        Forms\Components\TextInput::make('link')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\FileUpload::make('thumbnail')
+                            ->required()
+                            ->image()
+                            ->imageEditor()
+                            ->imageEditorAspectRatios([
+                                '16:9',
+                                '4:3',
+                                '1:1',
+                            ])
+                            ->directory('galleries')
+                            ->columnSpanFull(),
+                        Forms\Components\Toggle::make('is_publish')
+                            ->required(),
+                    ])->columns(3)
             ]);
     }
 
@@ -71,6 +85,9 @@ class GalleryVideoResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('eventable.title')
+                    ->label('Jadwal Ibadah Terkait')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('thumbnail')
@@ -135,7 +152,7 @@ class GalleryVideoResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ])
-           
+
             ->where('eventable_type', 'service');
     }
 }

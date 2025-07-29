@@ -14,4 +14,8 @@ class CreateUser extends CreateRecord
     {
         $this->record->jemaat()->create();
     }
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

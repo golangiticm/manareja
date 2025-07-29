@@ -19,7 +19,7 @@ class GalleryVideo extends Model
 
     protected $guarded = [];
 
-    public function eventable_video()
+    public function eventable()
     {
         return $this->morphTo();
     }

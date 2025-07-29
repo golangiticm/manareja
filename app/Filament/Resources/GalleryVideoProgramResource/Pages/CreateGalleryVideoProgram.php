@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateGalleryVideoProgram extends CreateRecord
 {
     protected static string $resource = GalleryVideoProgramResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

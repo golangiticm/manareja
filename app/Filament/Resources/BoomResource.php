@@ -87,6 +87,7 @@ class BoomResource extends Resource
                                                 ->searchable(),
 
                                         ])
+                                        ->defaultItems(0)
                                         ->addActionAlignment(Alignment::End)
                                         ->collapsible(),
                                 ]),

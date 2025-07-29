@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateMog extends CreateRecord
 {
     protected static string $resource = MogResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

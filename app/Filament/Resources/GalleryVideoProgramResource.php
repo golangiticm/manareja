@@ -8,6 +8,7 @@ use App\Models\GalleryVideo;
 use App\Models\GalleryVideoProgram;
 use App\Models\Program;
 use Filament\Forms;
+use Filament\Forms\Components\Card;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -19,52 +20,65 @@ class GalleryVideoProgramResource extends Resource
 {
     protected static ?string $model = GalleryVideo::class;
 
-     protected static ?string $navigationIcon = 'heroicon-o-video-camera';
+    protected static ?string $navigationIcon = 'heroicon-o-video-camera';
 
     protected static ?string $navigationLabel = 'Video';
 
-    protected static ?string $navigationGroup = 'Galeri Event';
+    protected static ?string $navigationGroup = 'Galeri Program';
 
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('eventable_id')
-                    ->options(function () {
-                        // Ambil data dari services dan programs, digabung manual
-                        // $services = Service::all()->pluck('title', 'id')->mapWithKeys(fn($title, $id) => [$id => $title]);
-                        $programs = Program::all()->pluck('title', 'id')->mapWithKeys(fn($title, $id) => [$id => $title]);
+                Card::make()
+                    ->schema([
+                        Forms\Components\Select::make('eventable_id')
+                            ->label('Program Terkait')
+                            ->options(function () {
+                                // Ambil data dari services dan programs, digabung manual
+                                // $services = Service::all()->pluck('title', 'id')->mapWithKeys(fn($title, $id) => [$id => $title]);
+                                $programs = Program::all()->pluck('title', 'id')->mapWithKeys(fn($title, $id) => [$id => $title]);
 
-                        // return $services->merge($programs)->toArray();
-                        return $programs;
-                    })
-                    ->preload()
-                    ->searchable()
-                    ->required(),
-                Forms\Components\Hidden::make('eventable_type')
-                    ->default('program')
-                    ->required(),
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('thumbnail')
-                    ->required()
-                    ->image()
-                    ->imageEditor()
-                    ->imageEditorAspectRatios([
-                        '16:9',
-                        '4:3',
-                        '1:1',
-                    ])
-                    ->directory('galleries')
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('link')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DatePicker::make('published_at'),
-                Forms\Components\Toggle::make('is_publish')
-                    ->required(),
+                                // return $services->merge($programs)->toArray();
+                                return $programs;
+                            })
+                            ->reactive()
+                            ->afterStateUpdated(function (callable $set, $state) {
+                                $program = \App\Models\Program::find($state);
+                                if ($program) {
+                                    $set('title', $program->title);
+                                } else {
+                                    $set('title', null);
+                                }
+                            })
+                            ->preload()
+                            ->searchable()
+                            ->required(),
+                        Forms\Components\TextInput::make('title')
+                            ->readOnly()
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('link')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Hidden::make('eventable_type')
+                            ->default('program')
+                            ->required(),
+                        Forms\Components\FileUpload::make('thumbnail')
+                            ->required()
+                            ->image()
+                            ->imageEditor()
+                            ->imageEditorAspectRatios([
+                                '16:9',
+                                '4:3',
+                                '1:1',
+                            ])
+                            ->directory('galleries')
+                            ->columnSpanFull(),
+                        Forms\Components\Toggle::make('is_publish')
+                            ->required(),
+                    ])->columns(3)
             ]);
     }
 
@@ -72,6 +86,9 @@ class GalleryVideoProgramResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('eventable_video.title')
+                    ->label('Jadwal Ibadah Terkait')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('thumbnail')
@@ -136,6 +153,6 @@ class GalleryVideoProgramResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ])
-            ->where('eventable_type','program');
+            ->where('eventable_type', 'program');
     }
 }

@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateDoa extends CreateRecord
 {
     protected static string $resource = DoaResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

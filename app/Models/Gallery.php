@@ -26,6 +26,6 @@ class Gallery extends Model
 
     public function eventable()
     {
-        return $this->morphTo(Service::class);
+        return $this->morphTo();
     }
 }

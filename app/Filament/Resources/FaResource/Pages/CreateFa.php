@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateFa extends CreateRecord
 {
     protected static string $resource = FaResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

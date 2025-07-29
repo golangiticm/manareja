@@ -34,6 +34,6 @@ class Service extends Model
     }
     public function gallery_videos()
     {
-        return $this->morphMany(GalleryVideo::class, 'eventable_video');
+        return $this->morphMany(GalleryVideo::class, 'eventable');
     }
 }

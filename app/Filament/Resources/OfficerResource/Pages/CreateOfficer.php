@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateOfficer extends CreateRecord
 {
     protected static string $resource = OfficerResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

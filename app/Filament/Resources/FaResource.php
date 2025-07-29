@@ -73,6 +73,7 @@ class FaResource extends Resource
                                                 ),
 
                                         ])
+                                        ->defaultItems(0)
                                         ->addActionAlignment(Alignment::End)
                                         ->collapsible(),
                                 ]),
@@ -104,6 +105,7 @@ class FaResource extends Resource
                                                 ->searchable(),
 
                                         ])
+                                        ->defaultItems(0)
                                         ->addActionAlignment(Alignment::End)
                                         ->collapsible(),
                                 ]),
