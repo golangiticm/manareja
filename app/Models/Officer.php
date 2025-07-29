@@ -23,4 +23,9 @@ class Officer extends Model
     {
         return $this->belongsToMany(User::class, 'has_officers', 'officer_id', 'user_id');
     }
+
+    public function officer_service_assigments()
+    {
+        return $this->hasMany(OfficerServiceAssigment::class);
+    }
 }

@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class OfficerServicePendeta extends Model
+class OfficerServiceAssigment extends Model
 {
     use HasFactory, Notifiable, SoftDeletes, HasUuids;
 
-    protected $table = 'officer_service_pendetas';
+    protected $table = 'officer_service_assigments';
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
@@ -27,5 +27,9 @@ class OfficerServicePendeta extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function officer()
+    {
+        return $this->belongsTo(Officer::class);
     }
 }

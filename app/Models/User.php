@@ -101,4 +101,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(OfficerServiceMusik::class);
     }
+    public function officer_service_assigments()
+    {
+        return $this->hasMany(OfficerServiceAssigment::class);
+    }
 }

@@ -31,7 +31,7 @@ class FaResource extends Resource
     protected static ?string $modelLabel = 'Family Altar';
 
     protected static ?string $pluralModelLabel = 'Daftar Family Altar';
-    
+
 
     public static function form(Form $form): Form
     {
@@ -73,124 +73,35 @@ class FaResource extends Resource
                                                 ),
 
                                         ])
-                                         ->addActionAlignment(Alignment::End)
-                                        ->collapsible(),
-                                ]),
-                            Card::make()
-                                ->schema([
-                                    Repeater::make('officer_service_pendetas')
-                                        ->label('Pendeta')
-                                        ->relationship()
-                                        ->schema([
-                                            Forms\Components\Select::make('user_id')
-                                                ->relationship(
-                                                    'user',
-                                                    'name',
-                                                    fn($query) => $query->whereHas('officers', fn($q) => $q->where('title', 'pendeta'))
-                                                ),
-
-                                        ])
                                         ->addActionAlignment(Alignment::End)
                                         ->collapsible(),
                                 ]),
                             Card::make()
                                 ->schema([
-                                    Repeater::make('officer_service_worship_leaders')
-                                        ->label('Worship Leader')
+                                    Repeater::make('officer_service_assigments')
                                         ->relationship()
                                         ->schema([
-                                            Forms\Components\Select::make('user_id')
-                                                ->relationship(
-                                                    'user',
-                                                    'name',
-                                                    fn($query) => $query->whereHas('officers', fn($q) => $q->where('title', 'wl'))
-                                                ),
+                                            Forms\Components\Select::make('officer_id')
+                                                ->label('Tugas/Jabatan')
+                                                ->relationship('officer', 'title')
+                                                ->required()
+                                                ->reactive(),
 
-                                        ])
-                                        ->addActionAlignment(Alignment::End)
-                                        ->collapsible(),
-                                ]),
-                            Card::make()
-                                ->schema([
-                                    Repeater::make('officer_service_singers')
-                                        ->label('Singer')
-                                        ->relationship()
-                                        ->schema([
                                             Forms\Components\Select::make('user_id')
-                                                ->relationship(
-                                                    'user',
-                                                    'name',
-                                                    fn($query) => $query->whereHas('officers', fn($q) => $q->where('title', 'singer'))
-                                                ),
+                                                ->label('Nama Petugas')
+                                                ->options(function (callable $get) {
+                                                    $officerId = $get('officer_id');
 
-                                        ])
-                                        ->addActionAlignment(Alignment::End)
-                                        ->collapsible(),
-                                ]),
-                            Card::make()
-                                ->schema([
-                                    Repeater::make('officer_service_ushers')
-                                        ->label('Usher')
-                                        ->relationship()
-                                        ->schema([
-                                            Forms\Components\Select::make('user_id')
-                                                ->relationship(
-                                                    'user',
-                                                    'name',
-                                                    fn($query) => $query->whereHas('officers', fn($q) => $q->where('title', 'usher'))
-                                                ),
+                                                    if (!$officerId) {
+                                                        return \App\Models\User::all()->pluck('name', 'id');
+                                                    }
 
-
-                                        ])
-                                        ->addActionAlignment(Alignment::End)
-                                        ->collapsible(),
-                                ]),
-                            Card::make()
-                                ->schema([
-                                    Repeater::make('officer_service_kolektans')
-                                        ->label('Kolektan')
-                                        ->relationship()
-                                        ->schema([
-                                            Forms\Components\Select::make('user_id')
-                                                ->relationship(
-                                                    'user',
-                                                    'name',
-                                                    fn($query) => $query->whereHas('officers', fn($q) => $q->where('title', 'kolektan'))
-                                                ),
-
-                                        ])
-                                        ->addActionAlignment(Alignment::End)
-                                        ->collapsible(),
-                                ]),
-                            Card::make()
-                                ->schema([
-                                    Repeater::make('officer_service_multimedias')
-                                        ->label('Multimedia')
-                                        ->relationship()
-                                        ->schema([
-                                            Forms\Components\Select::make('user_id')
-                                                ->relationship(
-                                                    'user',
-                                                    'name',
-                                                    fn($query) => $query->whereHas('officers', fn($q) => $q->where('title', 'multimedia'))
-                                                ),
-
-                                        ])
-                                        ->addActionAlignment(Alignment::End)
-                                        ->collapsible(),
-                                ]),
-                            Card::make()
-                                ->schema([
-                                    Repeater::make('officer_service_musiks')
-                                        ->label('Musik')
-                                        ->relationship()
-                                        ->schema([
-                                            Forms\Components\Select::make('user_id')
-                                                ->relationship(
-                                                    'user',
-                                                    'name',
-                                                    fn($query) => $query->whereHas('officers', fn($q) => $q->where('title', 'musik'))
-                                                ),
+                                                    return \App\Models\User::whereHas('officers', function ($query) use ($officerId) {
+                                                        $query->where('officers.id', $officerId);
+                                                    })->pluck('name', 'id');
+                                                })
+                                                ->required()
+                                                ->searchable(),
 
                                         ])
                                         ->addActionAlignment(Alignment::End)

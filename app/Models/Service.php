@@ -51,4 +51,8 @@ class Service extends Model
     {
         return $this->hasMany(OfficerServiceFa::class);
     }
+    public function officer_service_assigments()
+    {
+        return $this->hasMany(OfficerServiceAssigment::class);
+    }
 }
