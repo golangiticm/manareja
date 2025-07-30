@@ -4,11 +4,11 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\Login;
 use App\Filament\Pages\Auth\Register;
-use App\Http\Middleware\VerifyIsAdmin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -19,37 +19,40 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Filament\Navigation\MenuItem;
 
-
-class AdminPanelProvider extends PanelProvider
+class AppPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->id('admin')
-            ->path('admin')
+            ->default()
+            ->id('app')
+            ->path('app')
+            ->login(Login::class)
+            ->registration(Register::class)
             ->colors([
-                'primary' => Color::Indigo,
+                'primary' => Color::Amber,
             ])
             ->profile()
             ->userMenuItems([
                 MenuItem::make()
-                    ->label('Dashboard')
+                    ->label('Admin')
                     ->icon('heroicon-o-cog-6-tooth')
-                    ->url('/app')
+                    ->url('/admin')
+                    ->visible(fn(): bool => Auth::user()->is_admin)
             ])
             ->favicon(asset('images/favicon.png'))
             ->brandLogo(asset('images/favicon.png'))->brandLogoHeight('3.2rem')
             ->font('Poppins')
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\\Filament\\App\\Resources')
+            ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
             ->pages([
                 Pages\Dashboard::class,
             ])
             ->sidebarCollapsibleOnDesktop()
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\\Filament\\App\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
@@ -64,9 +67,10 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                VerifyIsAdmin::class,
             ])
             ->spa()
-        ;
+            ->authMiddleware([
+                Authenticate::class,
+            ]);
     }
 }
