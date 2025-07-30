@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\QrisResource\Pages;
-use App\Filament\Resources\QrisResource\RelationManagers;
-use App\Models\Qris;
+use App\Filament\Resources\CabangResource\Pages;
+use App\Filament\Resources\CabangResource\RelationManagers;
+use App\Models\Cabang;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Form;
@@ -14,13 +14,13 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class QrisResource extends Resource
+class CabangResource extends Resource
 {
-    protected static ?string $model = Qris::class;
+    protected static ?string $model = Cabang::class;
 
-    protected static ?string $navigationGroup = 'Perbankan';
+    protected static ?string $navigationIcon = 'heroicon-o-sparkles';
 
-    protected static ?string $navigationIcon = 'heroicon-o-qr-code';
+    protected static ?string $navigationLabel = 'Cabang';
 
     public static function form(Form $form): Form
     {
@@ -28,18 +28,22 @@ class QrisResource extends Resource
             ->schema([
                 Card::make()
                     ->schema([
-                        Forms\Components\Select::make('type')
-                            ->label('Peruntukan')
-                            ->options([
-                                'brc' => 'Gereja BRC Sangatta',
-                                'yyp' => 'Yayasan->Paud',
-                                'yys' => 'Yayasan->SD',
-                            ])
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->prefixIcon('heroicon-o-tag')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('telephone')
+                            ->tel()
+                            ->mask('9999-9999-9999-9999')
+                            ->maxLength(20)
+                            ->prefixIcon('heroicon-o-phone')
                             ->required(),
-                        Forms\Components\TextInput::make('atas_nama')
+                        Forms\Components\TextInput::make('email')
+                            ->email()
+                            ->prefixIcon('heroicon-o-envelope')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\FileUpload::make('qr_code')
+                        Forms\Components\FileUpload::make('thumbnail')
                             ->required()
                             ->image()
                             ->imageEditor()
@@ -48,8 +52,13 @@ class QrisResource extends Resource
                                 '4:3',
                                 '1:1',
                             ])
-                            ->directory('bank'),
-                    ])
+                            ->directory('cabang')
+                            ->columnSpanFull(),
+                        Forms\Components\Textarea::make('address')
+                            ->required()
+                            ->columnSpanFull(),
+                    ])->columns(3)
+
             ]);
     }
 
@@ -57,30 +66,13 @@ class QrisResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('type')
-                    ->label('Peruntukan')
-                    ->badge()
-                    ->formatStateUsing(function ($state) {
-                        return match ($state) {
-                            'brc' => 'Gereja BRC Sangatta',
-                            'yyp' => 'Yayasan → Paud',
-                            'yys' => 'Yayasan → SD',
-                            default => $state,
-                        };
-                    })
-                    ->color(function ($state) {
-                        return match ($state) {
-                            'brc' => 'primary',
-                            'yyp' => 'success',
-                            'yys' => 'warning',
-                            default => 'gray',
-                        };
-                    })
+                Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('atas_nama')
+                Tables\Columns\ImageColumn::make('thumbnail')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('qr_code')
-                    ->square()
+                Tables\Columns\TextColumn::make('telephone')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
@@ -120,9 +112,9 @@ class QrisResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListQris::route('/'),
-            // 'create' => Pages\CreateQris::route('/create'),
-            // 'edit' => Pages\EditQris::route('/{record}/edit'),
+            'index' => Pages\ListCabangs::route('/'),
+            // 'create' => Pages\CreateCabang::route('/create'),
+            // 'edit' => Pages\EditCabang::route('/{record}/edit'),
         ];
     }
 

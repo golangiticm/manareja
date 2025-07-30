@@ -18,9 +18,13 @@ class BankResource extends Resource
 {
     protected static ?string $model = Bank::class;
 
-    protected static ?string $navigationGroup = 'Donasi';
+    protected static ?string $navigationGroup = 'Perbankan';
 
-    protected static ?string $navigationIcon = 'heroicon-o-building-library';
+    protected static ?string $navigationLabel = 'Rekening';
+
+    protected static ?string $modelLabel = 'Rekening';
+
+    protected static ?string $navigationIcon = 'heroicon-o-credit-card';
 
     public static function form(Form $form): Form
     {
@@ -34,7 +38,8 @@ class BankResource extends Resource
                                 'brc' => 'Gereja BRC Sangatta',
                                 'yyp' => 'Yayasan->Paud',
                                 'yys' => 'Yayasan->SD',
-                            ]),
+                            ])
+                            ->required(),
                         Forms\Components\TextInput::make('nama_bank')
                             ->required()
                             ->maxLength(255)
