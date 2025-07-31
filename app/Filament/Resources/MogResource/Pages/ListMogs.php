@@ -14,6 +14,12 @@ class ListMogs extends ListRecords
     {
         return [
             Actions\CreateAction::make()->label('Tambah Jadwal'),
+            Actions\Action::make('Cetak Semua')
+                ->label('Cetak Semua Jadwal')
+                ->icon('heroicon-o-printer')
+                ->url(route('services.print.all', 'MOG'))
+                ->color('primary')
+                ->openUrlInNewTab(),
         ];
     }
 }

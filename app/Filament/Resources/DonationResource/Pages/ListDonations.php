@@ -7,6 +7,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Resources\Pages\ListRecords\Tab;
+use Filament\Forms;
 
 class ListDonations extends ListRecords
 {
@@ -16,6 +17,41 @@ class ListDonations extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+            Actions\Action::make('Export Filtered')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->label('Export Filter')
+                ->color('success')
+                ->form([
+                    Forms\Components\Select::make('purpose')
+                        ->label('Tujuan')
+                        ->options([
+                            '000' => 'Persembahan',
+                            '010' => 'Persepuluhan',
+                            '020' => 'Pembangunan',
+                            '005' => 'Diakonia/Peduli Kasih',
+                            '015' => 'Ucapan Syukur',
+                            '025' => 'HUT/Natal/Paskah',
+                            '030' => 'Misi',
+                            '035' => 'Komitmen Videotron',
+                        ])
+                        ->searchable()
+                        ->placeholder('Semua'),
+                    Forms\Components\Select::make('is_approved')
+                        ->label('Status Persetujuan')
+                        ->options([
+                            '1' => 'Approved',
+                            '0' => 'Rejected',
+                        ])
+                        ->placeholder('Semua'),
+                ])
+                ->action(function (array $data) {
+                    $query = http_build_query([
+                        'purpose' => $data['purpose'] ?? null,
+                        'approved' => $data['is_approved'] !== null ? (bool)$data['is_approved'] : null,
+                    ]);
+
+                    return redirect()->away(route('donations.export') . '?' . $query);
+                })
         ];
     }
 

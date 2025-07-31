@@ -14,6 +14,12 @@ class ListDoas extends ListRecords
     {
         return [
             Actions\CreateAction::make()->label('Tambah Data'),
+            Actions\Action::make('Cetak Semua')
+                ->label('Cetak Bulan Ini')
+                ->icon('heroicon-o-printer')
+                ->url(route('services.print.all', 'DOA'))
+                ->color('primary')
+                ->openUrlInNewTab(),
         ];
     }
 }
