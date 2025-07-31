@@ -22,6 +22,10 @@ class CabangResource extends Resource
 
     protected static ?string $navigationLabel = 'Cabang';
 
+    protected static ?string $navigationGroup = 'Web';
+
+    protected static ?string $modelLabel = 'Cabang';
+
     public static function form(Form $form): Form
     {
         return $form

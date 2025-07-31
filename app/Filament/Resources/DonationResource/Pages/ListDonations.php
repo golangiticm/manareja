@@ -19,28 +19,36 @@ class ListDonations extends ListRecords
         ];
     }
 
+    // public function getTabs1(): array
+    // {
+    //     return [
+    //         'all' => Tab::make('Semua'),
+    //         '000' => Tab::make('Persembahan')
+    //             ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '000')),
+    //         '010' => Tab::make('Persepuluhan')
+    //             ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '010')),
+    //         '020' => Tab::make('Pembangunan')
+    //             ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '020')),
+    //         '005' => Tab::make('Diakonia')
+    //             ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '005')),
+    //         '015' => Tab::make('Ucapan Syukur')
+    //             ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '015')),
+    //         '025' => Tab::make('HUT/Natal/Paskah')
+    //             ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '025')),
+    //         '030' => Tab::make('Misi')
+    //             ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '030')),
+    //         '035' => Tab::make('Komitmen Videotron')
+    //             ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '035')),
+    //     ];
+    // }
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make('Semua'),
-            '000' => Tab::make('Persembahan')
-                ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '000')),
-            '010' => Tab::make('Persepuluhan')
-                ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '010')),
-            '020' => Tab::make('Pembangunan')
-                ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '020')),
-            '005' => Tab::make('Diakonia')
-                ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '005')),
-            '015' => Tab::make('Ucapan Syukur')
-                ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '015')),
-            '025' => Tab::make('HUT/Natal/Paskah')
-                ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '025')),
-            '030' => Tab::make('Misi')
-                ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '030')),
-            '035' => Tab::make('Komitmen Videotron')
-                ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '035')),
+            'all' => Tab::make('All'),
+            true => Tab::make('Approved')
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('is_approved', true)),
+            false => Tab::make('Rejected')
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('is_approved', false)),
         ];
     }
-
-    
 }

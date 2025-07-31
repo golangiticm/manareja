@@ -135,11 +135,21 @@ class DonationResource extends Resource
                     ->summarize([
                         \Filament\Tables\Columns\Summarizers\Sum::make()
                             ->label('Total Donasi')
-                            ->money('IDR', locale: 'id_ID')
-                            ->query(fn($query) => $query->where('is_approved', true)),
+                            ->money('IDR', locale: 'id_ID'),
+                        // ->query(fn($query) => $query->where('is_approved', true)),
                     ]),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('purpose')->options([
+                    '000' => 'Persembahan',
+                    '010' => 'Persepuluhan',
+                    '020' => 'Pembangunan',
+                    '005' => 'Diakonia/Peduli Kasih',
+                    '015' => 'Ucapan Syukur',
+                    '025' => 'HUT/Natal/Paskah',
+                    '030' => 'Misi',
+                    '035' => 'Komitmen Videotron',
+                ])->searchable(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
