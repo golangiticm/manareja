@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\App\Resources;
 
-use App\Filament\Resources\CsrFormResource\Pages;
-use App\Filament\Resources\CsrFormResource\RelationManagers;
+use App\Filament\App\Resources\CsrResource\Pages;
+use App\Filament\App\Resources\CsrResource\RelationManagers;
 use App\Models\Csr;
-use App\Models\CsrForm;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Form;
@@ -15,8 +14,9 @@ use Filament\Tables\Table;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
-class CsrFormResource extends Resource
+class CsrResource extends Resource
 {
     protected static ?string $model = Csr::class;
 
@@ -26,19 +26,16 @@ class CsrFormResource extends Resource
 
     protected static ?string $navigationGroup = 'Formulir';
 
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Card::make()
                     ->schema([
-                        Forms\Components\Select::make('user_id')
-                            ->label('Nama Jemaat')
-                            ->relationship('user', 'name')
-                            ->preload()
-                            ->searchable()
-                            ->required()
-                            ->columnSpanFull(),
+                        Forms\Components\Hidden::make('user_id')
+                            ->default(fn() => Auth::user()->id)
+                            ->required(),
                         Forms\Components\TextArea::make('requested_need')
                             ->default(null)
                             ->required()
@@ -69,15 +66,8 @@ class CsrFormResource extends Resource
                             ->preload()
                             ->searchable()
                             ->required(),
-                        Forms\Components\Select::make('status')
-                            ->options([
-                                'pending' => 'Pending',
-                                'approved' => 'Approved',
-                                'rejected' => 'Rejected'
-                            ])
+                        Forms\Components\Hidden::make('status')
                             ->default('pending')
-                            ->preload()
-                            ->searchable()
                             ->required(),
                     ])
             ]);
@@ -87,8 +77,6 @@ class CsrFormResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('requested_need')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('supporting_document')
@@ -147,9 +135,18 @@ class CsrFormResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCsrForms::route('/'),
-            // 'create' => Pages\CreateCsrForm::route('/create'),
-            // 'edit' => Pages\EditCsrForm::route('/{record}/edit'),
+            'index' => Pages\ListCsrs::route('/'),
+            // 'create' => Pages\CreateCsr::route('/create'),
+            // 'edit' => Pages\EditCsr::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ])
+            ->where('user_id', Auth::user()->id);
     }
 }

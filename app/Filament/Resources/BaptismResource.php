@@ -6,6 +6,7 @@ use App\Filament\Resources\BaptismResource\Pages;
 use App\Filament\Resources\BaptismResource\RelationManagers;
 use App\Models\Baptism;
 use Filament\Forms;
+use Filament\Forms\Components\Card;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -21,66 +22,69 @@ class BaptismResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static ?string $navigationLabel = 'Baptism';
-    
+
     protected static ?string $navigationGroup = 'Formulir';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->label('Nama Jemaat')
-                    ->relationship('user', 'name')
-                    ->preload()
-                    ->searchable()
-                    ->required(),
-                Forms\Components\TextInput::make('parents_name')
-                    ->label('Nama Wali')
-                    ->maxLength(255)
-                    ->default(null)
-                    ->required(),
-                Forms\Components\Select::make('baptism_type')
-                    ->label('Jenis Baptism')
-                    ->options([
-                        'selam' => 'Selam',
-                        'percik' => 'Percik',
-                        'anak' => 'Anak',
+                Card::make()
+                    ->schema([
+                        Forms\Components\Select::make('user_id')
+                            ->label('Nama Jemaat')
+                            ->relationship('user', 'name')
+                            ->preload()
+                            ->searchable()
+                            ->required(),
+                        Forms\Components\TextInput::make('parents_name')
+                            ->label('Nama Wali')
+                            ->maxLength(255)
+                            ->default(null)
+                            ->required(),
+                        Forms\Components\Select::make('baptism_type')
+                            ->label('Jenis Baptism')
+                            ->options([
+                                'selam' => 'Selam',
+                                'percik' => 'Percik',
+                                'anak' => 'Anak',
+                            ])
+                            ->preload()
+                            ->searchable()
+                            ->required(),
+                        Forms\Components\DatePicker::make('baptism_date')->required()->label('Tanggal Baptism'),
+                        Forms\Components\FileUpload::make('birth_certificate')
+                            ->label('Surat Keterangan Lahir (PDF)')
+                            ->acceptedFileTypes(['application/pdf'])
+                            ->maxSize(2048) // dalam KB = 2MB
+                            ->directory('documents/baptism') // path penyimpanan relatif ke disk
+                            ->preserveFilenames()
+                            ->required(),
+                        Forms\Components\FileUpload::make('photo')
+                            ->image()
+                            ->imageEditor()
+                            ->imageEditorAspectRatios([
+                                '16:9',
+                                '4:3',
+                                '1:1',
+                            ])
+                            ->directory('baptism')
+                            ->required(),
+                        Forms\Components\TextInput::make('baptism_place')
+                            ->maxLength(255)
+                            ->default(null)
+                            ->required(),
+                        Forms\Components\Select::make('status')
+                            ->options([
+                                'pending' => 'Pending',
+                                'approved' => 'Approved',
+                                'rejected' => 'Rejected'
+                            ])
+                            ->default('pending')
+                            ->preload()
+                            ->searchable()
+                            ->required(),
                     ])
-                    ->preload()
-                    ->searchable()
-                    ->required(),
-                Forms\Components\DatePicker::make('baptism_date')->required()->label('Tanggal Baptism'),
-                Forms\Components\FileUpload::make('birth_certificate')
-                    ->label('Surat Keterangan Lahir (PDF)')
-                    ->acceptedFileTypes(['application/pdf'])
-                    ->maxSize(2048) // dalam KB = 2MB
-                    ->directory('documents/baptism') // path penyimpanan relatif ke disk
-                    ->preserveFilenames()
-                    ->required(),
-                Forms\Components\FileUpload::make('photo')
-                    ->image()
-                    ->imageEditor()
-                    ->imageEditorAspectRatios([
-                        '16:9',
-                        '4:3',
-                        '1:1',
-                    ])
-                    ->directory('baptism')
-                    ->required(),
-                Forms\Components\TextInput::make('baptism_place')
-                    ->maxLength(255)
-                    ->default(null)
-                    ->required(),
-                Forms\Components\Select::make('status')
-                    ->options([
-                        'pending' => 'Pending',
-                        'approved' => 'Approved',
-                        'rejected' => 'Rejected'
-                    ])
-                    ->default('pending')
-                    ->preload()
-                    ->searchable()
-                    ->required(),
             ]);
     }
 

@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\App\Resources;
 
-use App\Filament\Resources\WeddingFormResource\Pages;
-use App\Filament\Resources\WeddingFormResource\RelationManagers;
+use App\Filament\App\Resources\WeddingResource\Pages;
+use App\Filament\App\Resources\WeddingResource\RelationManagers;
 use App\Models\Wedding;
-use App\Models\WeddingForm;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Form;
@@ -14,8 +13,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
-class WeddingFormResource extends Resource
+class WeddingResource extends Resource
 {
     protected static ?string $model = Wedding::class;
 
@@ -31,13 +31,9 @@ class WeddingFormResource extends Resource
             ->schema([
                 Card::make()
                     ->schema([
-                        Forms\Components\Select::make('user_id')
-                            ->label('Nama Jemaat')
-                            ->relationship('user', 'name')
-                            ->preload()
-                            ->searchable()
-                            ->required()
-                            ->columnSpanFull(),
+                        Forms\Components\Hidden::make('user_id')
+                            ->default(fn() => Auth::user()->id)
+                            ->required(),
                         Forms\Components\TextInput::make('groom_name')
                             ->label('Nama Mempelai Pria')
                             ->maxLength(255)
@@ -64,17 +60,11 @@ class WeddingFormResource extends Resource
                             ->directory('wedding')
                             ->required()
                             ->columnSpanFull(),
-                        Forms\Components\Select::make('status')
-                            ->options([
-                                'pending' => 'Pending',
-                                'approved' => 'Approved',
-                                'rejected' => 'Rejected'
-                            ])
+                        Forms\Components\Hidden::make('status')
                             ->default('pending')
-                            ->preload()
-                            ->searchable()
                             ->required(),
                     ])
+                    ->columns(2)
             ]);
     }
 
@@ -82,17 +72,13 @@ class WeddingFormResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('groom_name')
-                    ->label('Nama Mempelai Pria')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('bride_name')
-                    ->label('Nama Mempelai Wanita')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('wedding_date')
-                    ->label('Nama Mempelai Wanita')
-                    ->searchable(),
+                    ->date()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('wedding_location')
                     ->label('Lokasi Pernikahan')
                     ->searchable(),
@@ -106,6 +92,14 @@ class WeddingFormResource extends Resource
                             default => 'secondary',
                         };
                     }),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')->options([
@@ -134,9 +128,18 @@ class WeddingFormResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListWeddingForms::route('/'),
-            // 'create' => Pages\CreateWeddingForm::route('/create'),
-            // 'edit' => Pages\EditWeddingForm::route('/{record}/edit'),
+            'index' => Pages\ListWeddings::route('/'),
+            // 'create' => Pages\CreateWedding::route('/create'),
+            // 'edit' => Pages\EditWedding::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ])
+            ->where('user_id', Auth::user()->id);
     }
 }

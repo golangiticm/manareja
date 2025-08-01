@@ -38,7 +38,7 @@ class CabangResource extends Resource
                             ->maxLength(255),
                         Forms\Components\TextInput::make('telephone')
                             ->tel()
-                            ->mask('9999-9999-9999-9999')
+                            ->mask('9999-9999-9999')
                             ->maxLength(20)
                             ->prefixIcon('heroicon-o-phone')
                             ->required(),

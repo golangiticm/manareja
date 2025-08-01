@@ -1,28 +1,29 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\App\Resources;
 
-use App\Filament\Resources\CsrFormResource\Pages;
-use App\Filament\Resources\CsrFormResource\RelationManagers;
-use App\Models\Csr;
-use App\Models\CsrForm;
+use App\Filament\App\Resources\BaptismResource\Pages;
+use App\Filament\App\Resources\BaptismResource\RelationManagers;
+use App\Models\Baptism;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
-class CsrFormResource extends Resource
+
+class BaptismResource extends Resource
 {
-    protected static ?string $model = Csr::class;
+    protected static ?string $model = Baptism::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $navigationLabel = 'CSR';
+    protected static ?string $navigationLabel = 'Baptism';
 
     protected static ?string $navigationGroup = 'Formulir';
 
@@ -32,25 +33,33 @@ class CsrFormResource extends Resource
             ->schema([
                 Card::make()
                     ->schema([
-                        Forms\Components\Select::make('user_id')
-                            ->label('Nama Jemaat')
-                            ->relationship('user', 'name')
+                        Forms\Components\Hidden::make('user_id')
+                            ->default(fn() => Auth::user()->id)
+                            ->required(),
+                        Forms\Components\TextInput::make('parents_name')
+                            ->label('Nama Wali')
+                            ->maxLength(255)
+                            ->default(null)
+                            ->required(),
+                        Forms\Components\Select::make('baptism_type')
+                            ->label('Jenis Baptism')
+                            ->options([
+                                'selam' => 'Selam',
+                                'percik' => 'Percik',
+                                'anak' => 'Anak',
+                            ])
                             ->preload()
                             ->searchable()
-                            ->required()
-                            ->columnSpanFull(),
-                        Forms\Components\TextArea::make('requested_need')
-                            ->default(null)
-                            ->required()
-                            ->columnSpanFull(),
-                        Forms\Components\FileUpload::make('supporting_document')
-                            ->label('Dokumen Pendamping (PDF)')
+                            ->required(),
+                        Forms\Components\DatePicker::make('baptism_date')->required()->label('Tanggal Baptism'),
+                        Forms\Components\FileUpload::make('birth_certificate')
+                            ->label('Surat Keterangan Lahir (PDF)')
                             ->acceptedFileTypes(['application/pdf'])
                             ->maxSize(2048) // dalam KB = 2MB
-                            ->directory('documents/CSR') // path penyimpanan relatif ke disk
+                            ->directory('documents/baptism') // path penyimpanan relatif ke disk
                             ->preserveFilenames()
                             ->required(),
-                        Forms\Components\FileUpload::make('condition_photo')
+                        Forms\Components\FileUpload::make('photo')
                             ->image()
                             ->imageEditor()
                             ->imageEditorAspectRatios([
@@ -58,26 +67,14 @@ class CsrFormResource extends Resource
                                 '4:3',
                                 '1:1',
                             ])
-                            ->directory('CSR')
+                            ->directory('baptism')
                             ->required(),
-                        Forms\Components\Select::make('assistance_type')
-                            ->options([
-                                'pendidikan' => 'Pendidikan',
-                                'kesehatan' => 'Kesehatan',
-                                'lainnya' => 'Lainya'
-                            ])
-                            ->preload()
-                            ->searchable()
+                        Forms\Components\TextInput::make('baptism_place')
+                            ->maxLength(255)
+                            ->default(null)
                             ->required(),
-                        Forms\Components\Select::make('status')
-                            ->options([
-                                'pending' => 'Pending',
-                                'approved' => 'Approved',
-                                'rejected' => 'Rejected'
-                            ])
+                        Forms\Components\Hidden::make('status')
                             ->default('pending')
-                            ->preload()
-                            ->searchable()
                             ->required(),
                     ])
             ]);
@@ -87,20 +84,23 @@ class CsrFormResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
+                Tables\Columns\TextColumn::make('parents_name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('requested_need')
+                Tables\Columns\TextColumn::make('baptism_type'),
+                Tables\Columns\TextColumn::make('baptism_date')
+                    ->date()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('baptism_place')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('supporting_document')
-                    ->label('Surat Pendamping') // bisa diganti jadi kosong kalau mau
+                Tables\Columns\IconColumn::make('birth_certificate')
+                    ->label('Surat Lahir') // bisa diganti jadi kosong kalau mau
                     ->icon(fn($state) => $state ? 'heroicon-o-document-arrow-down' : null)
                     ->color('primary')
                     ->url(fn($state) => $state ? Storage::url($state) : null)
                     ->openUrlInNewTab(),
-                Tables\Columns\ImageColumn::make('condition_photo')
+                Tables\Columns\ImageColumn::make('photo')
                     ->circular()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('assistance_type'),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
                     ->color(function ($state) {
@@ -147,9 +147,18 @@ class CsrFormResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCsrForms::route('/'),
-            // 'create' => Pages\CreateCsrForm::route('/create'),
-            // 'edit' => Pages\EditCsrForm::route('/{record}/edit'),
+            'index' => Pages\ListBaptisms::route('/'),
+            // 'create' => Pages\CreateBaptism::route('/create'),
+            // 'edit' => Pages\EditBaptism::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ])
+            ->where('user_id', Auth::user()->id);
     }
 }
