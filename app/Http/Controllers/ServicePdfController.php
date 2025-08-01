@@ -10,20 +10,27 @@ use Carbon\Carbon;
 
 class ServicePdfController extends Controller
 {
-    public function printAll(string $type)
+    public function printAll(Request $request, string $type)
     {
+        $month = $request->get('month', now()->month);
+        $year = $request->get('year', now()->year);
 
-        $now = Carbon::now();
-        $services = Service::with('officer_service_assigments.officer', 'officer_service_assigments.user')
+        $query = Service::with('officer_service_assigments.officer', 'officer_service_assigments.user');
+
+        if ($type === 'FA') {
+            $query->with('officer_service_fas.group');
+        }
+
+        $services = $query
             ->where('type', $type)
-            ->whereMonth('held_at', $now->month)
-            ->whereYear('held_at', $now->year)
+            ->whereMonth('held_at', $month)
+            ->whereYear('held_at', $year)
             ->orderBy('held_at')
             ->get();
 
-        $pdf = Pdf::loadView('pdf.all-services', compact('services', 'type'))
+        $pdf = Pdf::loadView('pdf.all-services', compact('services', 'type', 'month', 'year'))
             ->setPaper('a4', 'portrait');
 
-        return $pdf->download('jadwal-ibadah-semua.pdf');
+        return $pdf->download("jadwal-ibadah-$month-$year.pdf");
     }
 }

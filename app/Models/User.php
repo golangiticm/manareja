@@ -74,4 +74,29 @@ class User extends Authenticatable
     {
         return $this->hasMany(OfficerServiceAssigment::class);
     }
+
+    public function wedding()
+    {
+        return $this->hasOne(Wedding::class);
+    }
+
+    public function baptism()
+    {
+        return $this->hasOne(Baptism::class);
+    }
+
+    public function csr()
+    {
+        return $this->hasOne(Csr::class);
+    }
+
+    public function bcm()
+    {
+        return $this->hasOne(Bcm::class);
+    }
+
+    public function kaderisasi()
+    {
+        return $this->hasOne(Kaderisasi::class);
+    }
 }

@@ -33,4 +33,14 @@ class Program extends Model
     {
         return $this->morphMany(GalleryVideo::class, 'eventable');
     }
+
+    public function bcms()
+    {
+        return $this->hasMany(Bcm::class);
+    }
+    public function kaderisasis()
+    {
+        return $this->hasMany(Kaderisasi::class);
+    }
+    
 }

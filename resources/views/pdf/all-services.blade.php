@@ -101,53 +101,63 @@
     <br>
     {{-- <div class="separator"></div> --}}
     <table>
-    <thead>
-        <tr>
-            <th rowspan="2" style="text-align: center">Title</th>
-            <th rowspan="2" style="text-align: center">Tanggal</th>
-            <th rowspan="2" style="text-align: center">Waktu</th>
-            <th rowspan="2" style="text-align: center">Tempat</th>
-            <th colspan="2" style="text-align: center">Daftar Petugas</th>
-        </tr>
-        <tr>
-            <th style="text-align: center">Petugas</th>
-            <th style="text-align: center">Nama</th>
-        </tr>
-    </thead>
-    <tbody>
-        @forelse ($services as $service)
-            @php
-                $assignments = $service->officer_service_assigments;
-                $rowspan = $assignments->count() > 0 ? $assignments->count() : 1;
-            @endphp
+        <thead>
+            <tr>
+                <th rowspan="2" style="text-align: center">Title</th>
+                <th rowspan="2" style="text-align: center">Tanggal</th>
+                <th rowspan="2" style="text-align: center">Waktu</th>
+                <th rowspan="2" style="text-align: center">Tempat</th>
+                @if ($type == 'FA')
+                    <th rowspan="2" style="text-align: center">Family Altar</th>
+                @endif
+                <th colspan="2" style="text-align: center">Daftar Petugas</th>
+            </tr>
+            <tr>
+                <th style="text-align: center">Petugas</th>
+                <th style="text-align: center">Nama</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($services as $service)
+                @php
+                    $assignments = $service->officer_service_assigments;
+                    $rowspan = $assignments->count() > 0 ? $assignments->count() : 1;
+                @endphp
 
-            @if($assignments->count())
-                @foreach ($assignments as $index => $assignment)
+                @if ($assignments->count())
+                    @foreach ($assignments as $index => $assignment)
+                        <tr>
+                            @if ($index === 0)
+                                <td rowspan="{{ $rowspan }}">{{ $service->title }}</td>
+                                <td rowspan="{{ $rowspan }}">
+                                    {{ \Carbon\Carbon::parse($service->held_at)->translatedFormat('l, d F Y') }}</td>
+                                <td rowspan="{{ $rowspan }}">{{ $service->start_time }} - {{ $service->end_time }}
+                                </td>
+                                <td rowspan="{{ $rowspan }}">{{ $service->location ?? '-' }}</td>
+                                @if ($type == 'FA')
+                                    @foreach ($service->officer_service_fas as $fas)
+                                        <td rowspan="{{ $rowspan }}">{{ $fas->group->name ?? '-' }}</td>
+                                    @endforeach
+                                @endif
+                            @endif
+                            <td>{{ $assignment->officer->title ?? '-' }}</td>
+                            <td>{{ $assignment->user->name ?? '-' }}</td>
+                        </tr>
+                    @endforeach
+                @else
                     <tr>
-                        @if($index === 0)
-                            <td rowspan="{{ $rowspan }}">{{ $service->title }}</td>
-                            <td rowspan="{{ $rowspan }}">{{ \Carbon\Carbon::parse($service->held_at)->translatedFormat('l, d F Y') }}</td>
-                            <td rowspan="{{ $rowspan }}">{{ $service->start_time }} - {{ $service->end_time }}</td>
-                            <td rowspan="{{ $rowspan }}">{{ $service->location ?? '-' }}</td>
-                        @endif
-                        <td>{{ $assignment->officer->title ?? '-' }}</td>
-                        <td>{{ $assignment->user->name ?? '-' }}</td>
+                        <td>{{ $service->title }}</td>
+                        <td>{{ \Carbon\Carbon::parse($service->held_at)->translatedFormat('l, d F Y') }}</td>
+                        <td>{{ $service->start_time }} - {{ $service->end_time }}</td>
+                        <td>{{ $service->location ?? '-' }}</td>
+                        <td colspan="2" style="text-align: center;">Belum ada petugas</td>
                     </tr>
-                @endforeach
-            @else
-                <tr>
-                    <td>{{ $service->title }}</td>
-                    <td>{{ \Carbon\Carbon::parse($service->held_at)->translatedFormat('l, d F Y') }}</td>
-                    <td>{{ $service->start_time }} - {{ $service->end_time }}</td>
-                    <td>{{ $service->location ?? '-' }}</td>
-                    <td colspan="2" style="text-align: center;">Belum ada petugas</td>
-                </tr>
-            @endif
-        @empty
+                @endif
+            @empty
                 <td colspan="6" style="text-align: center">Belum Ada Jadwal</td>
-        @endforelse
-    </tbody>
-</table>
+            @endforelse
+        </tbody>
+    </table>
 
 
     <div class="footer">
