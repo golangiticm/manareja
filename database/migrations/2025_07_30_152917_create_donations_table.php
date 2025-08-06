@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('donations', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('donor_name');
+            $table->uuid('user_id')->nullable();
+            $table->string('donor_name')->nullable();
             $table->decimal('amount', 12, 2);
             $table->string('purpose');
             $table->string('proof_path')->nullable();
@@ -21,6 +22,8 @@ return new class extends Migration
             $table->boolean('is_approved')->default(false);
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

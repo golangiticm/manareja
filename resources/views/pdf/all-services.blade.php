@@ -154,7 +154,7 @@
                     </tr>
                 @endif
             @empty
-                <td colspan="6" style="text-align: center">Belum Ada Jadwal</td>
+                <td colspan="{{ $type == 'FA' ? 7 : 6 }}" style="text-align: center">Belum Ada Jadwal</td>
             @endforelse
         </tbody>
     </table>

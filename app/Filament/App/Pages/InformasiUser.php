@@ -44,6 +44,21 @@ class InformasiUser extends Page
         return $form
             ->schema([
                 Card::make()->schema([
+                    Forms\Components\FileUpload::make('photo')
+                        ->label(false)
+                        ->image()
+                        ->imageEditor()
+                        ->imageEditorAspectRatios([
+                            '16:9',
+                            '4:3',
+                            '1:1',
+                        ])
+                        ->directory('jemaats')
+                        ->columnSpanFull()
+                        ->placeholder('Klik untuk unggah 📸')
+                        ->extraAttributes(['class' => 'mx-auto block cursor-pointer'])
+                        ->avatar()
+                        ->default(null),
                     Forms\Components\TextInput::make('name')
                         ->label('Nama')
                         ->required()
@@ -81,17 +96,6 @@ class InformasiUser extends Page
                         ->prefixIcon('heroicon-o-adjustments-horizontal'),
                     Forms\Components\Textarea::make('address')
                         ->columnSpanFull(),
-                    Forms\Components\FileUpload::make('photo')
-                        ->image()
-                        ->imageEditor()
-                        ->imageEditorAspectRatios([
-                            '16:9',
-                            '4:3',
-                            '1:1',
-                        ])
-                        ->directory('jemaats')
-                        ->columnSpanFull()
-                        ->default(null),
                 ])->columns(2),
             ])
             ->statePath('data');

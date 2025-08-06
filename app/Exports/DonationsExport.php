@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Donation;
+use App\Models\User;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
@@ -27,7 +28,7 @@ class DonationsExport implements FromCollection, WithHeadings
 
         return $query->get()->map(function ($donation) {
             return [
-                'Nama Donatur' => $donation->donor_name,
+                'Nama Donatur' => $donation->donor_name ?? User::find($donation->user_id)->name,
                 'Jumlah' => $donation->amount,
                 'Tujuan' => $this->mapPurpose($donation->purpose),
                 'Pesan' => $donation->message,

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\URL;
 use App\Models\Program;
 use App\Models\Service;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -22,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        // if (config('app.env') === 'local') {
+        //     URL::forceScheme('https');
+        // }
         //relasi morph pakai map
         Relation::morphMap([
             'service' => Service::class,

@@ -99,4 +99,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Kaderisasi::class);
     }
+
+    public function donations()
+    {
+        return $this->hasMany(Donation::class);
+    }
 }
