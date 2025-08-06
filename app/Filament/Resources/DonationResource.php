@@ -63,10 +63,10 @@ class DonationResource extends Resource
                                 '1:1',
                             ])
                             ->directory('donations')
-                            ->hiddenOn('edit'),
+                            ->disabledOn('edit'),
                         Forms\Components\Textarea::make('message')
                             ->columnSpanFull()
-                            ->hiddenOn('edit'),
+                            ->readOnly('edit'),
                         Forms\Components\Toggle::make('is_approved')
                             ->required(),
                     ])
