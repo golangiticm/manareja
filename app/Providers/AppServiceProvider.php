@@ -27,9 +27,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
-        if (config('app.env') === 'local') {
-            URL::forceScheme('https');
-        }
+        // if (config('app.env') === 'local') {
+        //     URL::forceScheme('https');
+        // }
         //relasi morph pakai map
         Relation::morphMap([
             'service' => Service::class,
