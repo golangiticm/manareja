@@ -4,14 +4,21 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Index - Moderna Bootstrap Template</title>
+    <title>
+        @isset($title)
+            {{ $title }} - {{ $setting->site_name }}
+        @else
+            {{ $setting->site_name }}
+        @endisset
+    </title>
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <link href="{{ asset($setting && $setting->logo ? 'storage/' . $setting->logo : 'images/favicon.png') }}"
+        rel="icon">
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -32,14 +39,17 @@
 
     <!-- Main CSS File -->
     <link href="{{ asset('web/css/main.css') }}" rel="stylesheet">
-
-    <!-- =======================================================
-  * Template Name: Moderna
-  * Template URL: https://bootstrapmade.com/free-bootstrap-template-corporate-moderna/
-  * Updated: Aug 07 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+    @php
+        $hero = $home && $home->hero ? asset('storage/' . $home->hero) : asset('web/img/hero-bg.jpg');
+    @endphp
+    {{-- @dd($hero) --}}
+    <style>
+        .hero::after {
+            background: url('{{ $hero }}') center top no-repeat;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    </style>
 </head>
 
 <body class="index-page">

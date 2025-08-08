@@ -1,4 +1,4 @@
-<x-layouts>
+<x-layouts title="Cabang">
     <!-- Page Title -->
     <div class="page-title dark-background">
         <div class="container position-relative">
@@ -40,4 +40,72 @@
             </div>
         </div>
     </section><!-- /Services Section -->
+    <section id="featured-services" class="featured-services section">
+
+        <div class="container">
+            <div class="section-title">
+                <h2>Formulir</h2>
+                <p>Formulir Pengajuan</p>
+            </div>
+            <div class="row gy-4">
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-item item-cyan position-relative">
+                        <div class="icon">
+                            <i class="bi bi-file-earmark-text"></i>
+                        </div>
+                        <a href="/app/baptisms" class="stretched-link">
+                            <h3>Baptism</h3>
+                        </a>
+                    </div>
+                </div><!-- End Service Item -->
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-item item-orange position-relative">
+                        <div class="icon">
+                            <i class="bi bi-file-earmark-text"></i>
+                        </div>
+                        <a href="/app/bcms" class="stretched-link">
+                            <h3>BCM</h3>
+                        </a>
+                    </div>
+                </div><!-- End Service Item -->
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-item item-teal position-relative">
+                        <div class="icon">
+                            <i class="bi bi-file-earmark-text"></i>
+                        </div>
+                        <a href="/app/csrs" class="stretched-link">
+                            <h3>CSR</h3>
+                        </a>
+                    </div>
+                </div><!-- End Service Item -->
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-item item-red position-relative">
+                        <div class="icon">
+                            <i class="bi bi-file-earmark-text"></i>
+                        </div>
+                        <a href="/app/kaderisasis" class="stretched-link">
+                            <h3>Kaderisasi</h3>
+                        </a>
+                    </div>
+                </div><!-- End Service Item -->
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                    <div class="service-item item-yellow position-relative">
+                        <div class="icon">
+                            <i class="bi bi-file-earmark-text"></i>
+                        </div>
+                        <a href="/app/weddings" class="stretched-link">
+                            <h3>Wedding</h3>
+                        </a>
+                    </div>
+                </div><!-- End Service Item -->
+            </div>
+
+        </div>
+
+    </section><!-- /Featured Services Section -->
 </x-layouts>

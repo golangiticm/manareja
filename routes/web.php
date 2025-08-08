@@ -1,12 +1,21 @@
 <?php
 
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CabangController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DonasiController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
+
 Route::get('/', HomeController::class)->name('home');
+
+Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements');
+
+Route::post('/announcement/view/{id}', [AnnouncementController::class, 'incrementView'])->name('announcements.increment-view');
+
+Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 Route::get('/cabang', [CabangController::class, 'index'])->name('cabang');
 

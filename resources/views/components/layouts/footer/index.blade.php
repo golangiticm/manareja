@@ -1,12 +1,9 @@
 <footer id="footer" class="footer dark-background">
-    @php
-        $setting = \App\Models\SettingApp::first();
-    @endphp
     <div class="container footer-top">
         <div class="row gy-4">
             <div class="col-lg-4 col-md-6 footer-about">
                 <a href="{{ url('/') }}" class="d-flex align-items-center">
-                    <span class="sitename">{{ $setting->site_name }}</span>
+                    <span class="sitename">{{ $setting->site_name ?? 'Manareja'}}</span>
                 </a>
                 <div class="footer-contact pt-3">
                     {{ $setting->address }}
@@ -42,7 +39,7 @@
     </div>
 
     <div class="container copyright text-center mt-4">
-        <p>© <span>Copyright</span> <strong class="px-1 sitename">Manareja</strong> <span>All Rights Reserved</span></p>
+        <p>© <span>Copyright</span> <strong class="px-1 sitename">{{ $setting->site_name ?? 'Manareja'}}</strong> <span>All Rights Reserved</span></p>
         <div class="credits">
             Designed by <a href="https://www.bitmatic.co.id">BITMATIC</a>
         </div>

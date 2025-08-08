@@ -1,4 +1,4 @@
-<x-layouts>
+<x-layouts title="Kontak">
     <!-- Page Title -->
     @if (session('success'))
         <script>
@@ -118,7 +118,7 @@
                             </div>
 
                             <div class="col-12 text-center">
-                                <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill">Kirim
+                                <button type="submit" class="btn-get-started px-4 py-2 rounded-pill">Kirim
                                     Pesan</button>
                             </div>
                         </div>

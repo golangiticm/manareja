@@ -1,4 +1,4 @@
-<x-layouts>
+<x-layouts title="Donasi">
     <div class="page-title dark-background">
         <div class="container position-relative">
             <h1>Donasi</h1>
@@ -147,7 +147,9 @@
                                 <label class="form-label">Pesan / Ucapan</label>
                                 <textarea name="message" class="form-control" rows="3"></textarea>
                             </div>
-                            <button type="submit" class="btn btn-success w-100">Kirim Donasi</button>
+                            <div style="display:flex; justify-content:center; align-items:center">
+                                <button type="submit" class="btn-get-started">Kirim Donasi</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -182,7 +184,7 @@
             {{-- TABEL DONATUR --}}
             <div class="table-responsive">
                 <table class="table table-bordered table-striped bg-white rounded-3 overflow-hidden">
-                    <thead class="table-dark">
+                    <thead class="table-info">
                         <tr>
                             <th>No</th>
                             <th>Nama Donatur</th>

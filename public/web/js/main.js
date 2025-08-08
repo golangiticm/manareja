@@ -200,7 +200,7 @@
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    const modals = document.querySelectorAll(".announcement-modal");
+    const modals = document.querySelectorAll(".announcement-modal-brc");
 
     modals.forEach(modal => {
       modal.addEventListener("shown.bs.modal", function (event) {
@@ -215,7 +215,6 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(res => res.json())
         .then(data => {
-          console.log(`Viewed announcement ${announcementId}`);
         });
       });
     });

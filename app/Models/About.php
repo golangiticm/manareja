@@ -5,19 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SettingApp extends Model
+class About extends Model
 {
     use HasFactory;
 
-    protected $table = 'setting_apps';
+    protected $table = 'abouts';
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $guarded = [];
 
-     protected $casts = [
-        'phones' => 'array',
-        'emails' => 'array',
+    protected $casts = [
+        'images' => 'array',
+        'kepala_divisi' => 'array',
+        
+        // 'visi_misi' => 'array',
+        // 'sejarah' => 'array',
+        // 'struktur_organisasi' => 'array',
     ];
 }

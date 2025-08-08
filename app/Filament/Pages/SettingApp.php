@@ -17,6 +17,8 @@ class SettingApp extends Page
 
     protected static ?string $navigationLabel = 'Setting App';
 
+    protected static ?string $navigationGroup = 'Web';
+
     protected static string $view = 'filament.pages.setting-app';
 
     public ?array $data = [];

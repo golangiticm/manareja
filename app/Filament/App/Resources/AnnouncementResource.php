@@ -49,12 +49,17 @@ class AnnouncementResource extends Resource
                     ->label('Lihat')
                     ->icon('heroicon-o-eye')
                     ->color('info')
-                    ->action(function (Announcement $record, $livewire) {
-                        $livewire->emit('openAnnouncementModal', $record->id);
-                    })
+                    ->action(fn() => null) // Tidak melakukan aksi penyimpanan
+                    // ->requiresConfirmation() // Jadikan modal non-formal
                     ->modalHeading('Detail Pengumuman')
                     ->modalSubheading(fn(Announcement $record) => $record->title)
                     ->modalContent(fn(Announcement $record) => view('filament.custom.announcement-view', ['record' => $record]))
+                    ->modalFooterActions([
+                        Tables\Actions\Action::make('close')
+                            ->label('Tutup')
+                            ->color('gray')
+                            ->close()
+                    ])
             ]);
     }
 

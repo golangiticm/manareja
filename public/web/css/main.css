@@ -953,11 +953,11 @@ section,
   color: var(--default-color);
   animation: fadeInUp 1s both 0.4s;
   /* border: 2px solid #06923E; */
-  background: #06923E;
+  background: var(--accent-color);
 }
 
 .hero .btn-get-started:hover {
-  background: #0ab54e;
+  background: #6297b4;
   color: var(--contrast-color);
   text-decoration: none;
 }
@@ -1038,6 +1038,7 @@ section,
   --orange-color: #fd7e14;
   --teal-color: #20c997;
   --red-color: #df1529;
+  --purple-color: #c12196;
 }
 
 .featured-services .service-item {
@@ -1162,6 +1163,25 @@ section,
 }
 
 .featured-services .service-item.item-red:hover .icon i {
+  color: var(--contrast-color);
+}
+.featured-services .service-item.item-yellow .icon {
+  background-color: color-mix(in srgb, var(--purple-color) 10%, white 95%);
+}
+
+.featured-services .service-item.item-yellow .icon i {
+  color: var(--purple-color);
+}
+
+.featured-services .service-item.item-yellow:hover {
+  border-color: var(--purple-color);
+}
+
+.featured-services .service-item.item-yellow:hover .icon {
+  background-color: var(--purple-color);
+}
+
+.featured-services .service-item.item-yellow:hover .icon i {
   color: var(--contrast-color);
 }
 
@@ -2813,14 +2833,14 @@ section,
   border-radius: 999px;
   transition: background-color 0.3s ease, color 0.3s ease;
   color: #ffffff;
-  background-color: #06923E;
+  background-color:var(--accent-color);
   border: none;
   text-align: center;
   white-space: nowrap;
 }
 
 .btn-get-started:hover {
-  background-color: #0ab54e;
+  background-color:#6297b4;
   color: #ffffff;
   text-decoration: none;
 }
