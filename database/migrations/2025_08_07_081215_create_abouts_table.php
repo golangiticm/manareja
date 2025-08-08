@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('misi')->nullable();
             $table->text('sejarah')->nullable();
             $table->json('images')->nullable();
+            $table->string('file')->nullable();
             $table->string('avatar_kepala_gembala')->nullable();
             $table->string('name_kepala_gembala')->nullable();
             $table->json('kepala_divisi')->nullable();

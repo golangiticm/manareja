@@ -104,6 +104,13 @@ class About extends Page
                         ]),
                     Wizard\Step::make('Struktur Organisasi')
                         ->schema([
+                            Forms\Components\FileUpload::make('file')
+                                ->label('File PDF Struktur Organisasi')
+                                ->acceptedFileTypes(['application/pdf'])
+                                ->maxSize(2048) // dalam KB = 2MB
+                                ->directory('documents/baptism') // path penyimpanan relatif ke disk
+                                ->preserveFilenames()
+                                ->required(),
                             Forms\Components\FileUpload::make('avatar_kepala_gembala')
                                 ->label('Foto Kepala Gembala')
                                 ->image()
