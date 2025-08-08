@@ -209,11 +209,14 @@
                 </div>
             @endif
             <div class="text-center">
-                <a href="{{ asset('storage/struktur-organisasi.pdf') }}" class="btn btn-primary" download>
-                    Download Struktur Organisasi (PDF)
-                </a>
+                @if (!empty($about->file))
+                    <a href="{{ asset('storage/' . $about->file) }}" class="btn btn-primary" download>
+                        Download Struktur Organisasi (PDF)
+                    </a>
+                @else
+                    <p class="text-muted">Belum ada file</p>
+                @endif
             </div>
-
         </div>
     </section>
 

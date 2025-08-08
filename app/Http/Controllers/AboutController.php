@@ -13,10 +13,16 @@ class AboutController extends Controller
     public function index()
     {
         $about = About::first();
-        $kepalaDivisi = is_string($about->kepala_divisi)
-            ? json_decode($about->kepala_divisi, true)
-            : $about->kepala_divisi;
-        return view('components.web.about', compact('about','kepalaDivisi'));
+
+        $kepalaDivisi = [];
+
+        if ($about && $about->kepala_divisi) {
+            $kepalaDivisi = is_string($about->kepala_divisi)
+                ? json_decode($about->kepala_divisi, true)
+                : $about->kepala_divisi;
+        }
+
+        return view('components.web.about', compact('about', 'kepalaDivisi'));
     }
 
     /**

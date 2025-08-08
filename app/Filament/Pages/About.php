@@ -38,6 +38,7 @@ class About extends Page
             'avatar_kepala_gembala' => $this->record->avatar_kepala_gembala,
             'name_kepala_gembala' => $this->record->name_kepala_gembala,
             'kepala_divisi' => $this->record->kepala_divisi,
+            'file' => $this->record->file,
         ]);
     }
 
@@ -107,10 +108,9 @@ class About extends Page
                             Forms\Components\FileUpload::make('file')
                                 ->label('File PDF Struktur Organisasi')
                                 ->acceptedFileTypes(['application/pdf'])
-                                ->maxSize(2048) // dalam KB = 2MB
-                                ->directory('documents/baptism') // path penyimpanan relatif ke disk
-                                ->preserveFilenames()
-                                ->required(),
+                                ->maxSize(4096) // dalam KB = 2MB
+                                ->directory('documents/so') // path penyimpanan relatif ke disk
+                                ->preserveFilenames(),
                             Forms\Components\FileUpload::make('avatar_kepala_gembala')
                                 ->label('Foto Kepala Gembala')
                                 ->image()
@@ -175,6 +175,7 @@ class About extends Page
             'avatar_kepala_gembala' => $data['avatar_kepala_gembala'],
             'name_kepala_gembala' => $data['name_kepala_gembala'],
             'kepala_divisi' => $data['kepala_divisi'],
+            'file' => $data['file'],
         ]);
 
         Notification::make()
