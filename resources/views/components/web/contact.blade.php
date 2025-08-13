@@ -125,10 +125,7 @@
                     </form>
                 </div>
 
-                </form>
             </div><!-- End Contact Form -->
-
-        </div>
 
         </div>
 

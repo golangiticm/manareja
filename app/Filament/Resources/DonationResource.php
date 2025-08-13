@@ -14,6 +14,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Actions\ActionGroup;
+
 
 class DonationResource extends Resource
 {
@@ -161,12 +163,14 @@ class DonationResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('Download')
-                    ->icon('heroicon-o-document-arrow-down')
-                    ->color('danger')
-                    ->url(fn($record) => route('donations.pdf', $record))
-                    ->openUrlInNewTab(),
+                ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\Action::make('Download')
+                        ->icon('heroicon-o-document-arrow-down')
+                        ->color('danger')
+                        ->url(fn($record) => route('donations.pdf', $record))
+                        ->openUrlInNewTab(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

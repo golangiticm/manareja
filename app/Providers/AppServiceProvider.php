@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\About;
 use App\Models\Home;
 use Illuminate\Support\Facades\URL;
 use App\Models\Program;
@@ -49,11 +50,16 @@ class AppServiceProvider extends ServiceProvider
                 'WN',
                 'FA'
             ];
+            // $gallery = ['Service', 'Program'];
             $view
-                ->with('setting', SettingApp::first())
-                ->with('home', Home::first())
+                ->with('setting', SettingApp::first() ?? SettingApp::create())
+                ->with('about', About::first() ?? About::create())
+                ->with('home', Home::first() ?? Home::create([
+                    'kalams' => []
+                ]))
                 ->with('programMenu', $programMenu)
                 ->with('serviceMenu', $serviceMenu);
+                // ->with('gallery', $gallery);
         });
     }
 }

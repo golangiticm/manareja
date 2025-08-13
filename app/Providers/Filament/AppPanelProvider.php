@@ -35,7 +35,7 @@ class AppPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->profile()
+            ->profile(isSimple: false)
             ->userMenuItems([
                 MenuItem::make()
                     ->label('Admin')

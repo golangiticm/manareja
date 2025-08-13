@@ -10,11 +10,12 @@
                 About
             </x-layouts.header.link>
         </li>
-        <li class="dropdown"><a href="#"><span>Services</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+        <li class="dropdown"><a href="{{ route('service') }}"><span>Services</span> <i
+                    class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
                 @foreach ($serviceMenu as $item)
                     <li>
-                        <x-layouts.header.link href="#">
+                        <x-layouts.header.link href="{{ route('service.show', ['type' => $item]) }}">
                             {{-- <x-layouts.header.link href="{{ route('galleries.index') }}"> --}}
                             {{ $item }}
                         </x-layouts.header.link>
@@ -22,12 +23,12 @@
                 @endforeach
             </ul>
         </li>
-        <li class="dropdown"><a href="#"><span>Programs</span> <i
+        <li class="dropdown"><a href="{{ route('program') }}"><span>Programs</span> <i
                     class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
                 @foreach ($programMenu as $item)
                     <li>
-                        <x-layouts.header.link href="#">
+                        <x-layouts.header.link href="{{ route('program.show', ['type' => $item]) }}">
                             {{-- <x-layouts.header.link href="{{ route('galleries.index') }}"> --}}
                             {{ $item }}
                         </x-layouts.header.link>
@@ -39,17 +40,39 @@
         <li class="dropdown"><a href="#"><span>Gallery</span> <i
                     class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-                <li>
+                <li class="dropdown">
                     <x-layouts.header.link href="#">
-                        {{-- <x-layouts.header.link href="{{ route('galleries.index') }}"> --}}
-                        Foto
+                        <span>Services</span> <i class="bi bi-chevron-down toggle-dropdown"></i>
                     </x-layouts.header.link>
+                    <ul>
+                        <li>
+                            <x-layouts.header.link href="{{ route('gallery', ['eventable_type' => 'service']) }}">
+                                Foto
+                            </x-layouts.header.link>
+                        </li>
+                        <li>
+                            <x-layouts.header.link href="{{ route('gallery-video', ['eventable_type' => 'service']) }}">
+                                Video
+                            </x-layouts.header.link>
+                        </li>
+                    </ul>
                 </li>
-                <li>
+                <li class="dropdown">
                     <x-layouts.header.link href="#">
-                        {{-- <x-layouts.header.link href="{{ route('galleryvideos.index') }}"> --}}
-                        Video
+                        <span>Programs</span> <i class="bi bi-chevron-down toggle-dropdown"></i>
                     </x-layouts.header.link>
+                    <ul>
+                        <li>
+                            <x-layouts.header.link href="{{ route('gallery', ['eventable_type' => 'program']) }}">
+                                Foto
+                            </x-layouts.header.link>
+                        </li>
+                        <li>
+                            <x-layouts.header.link href="{{ route('gallery-video', ['eventable_type' => 'program']) }}">
+                                Video
+                            </x-layouts.header.link>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </li>

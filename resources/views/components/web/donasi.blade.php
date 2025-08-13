@@ -22,7 +22,7 @@
                     Swal.fire({
                         title: 'Terima Kasih! 🙏',
                         html: `
-              <p>Donasi Anda telah berhasil kami terima.</p>
+              <p>Donasi Anda telah berhasil kami terima dan sedang dalam proses verifikasi oleh admin</p>
               <p>Semoga Tuhan membalas kebaikan dan kemurahan hati Anda berlipat ganda.</p>
               <p>Terima kasih atas dukungan dan kepercayaannya kepada pelayanan gereja kami.</p>
             `,
@@ -124,9 +124,30 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Jumlah Donasi (Rp)</label>
-                                <input type="number" name="amount" class="form-control" min="1000"
-                                    max="9999999999.99" step="0.01" required>
+                                <input type="text" id="amount" name="amount" class="form-control" required>
                             </div>
+
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    const amountInput = document.getElementById("amount");
+
+                                    // Format angka saat diketik
+                                    amountInput.addEventListener("input", function(e) {
+                                        let value = e.target.value.replace(/\D/g, ""); // hapus semua selain angka
+                                        if (value) {
+                                            e.target.value = parseInt(value, 10).toLocaleString("id-ID");
+                                        } else {
+                                            e.target.value = "";
+                                        }
+                                    });
+
+                                    // Sebelum submit, kirim angka murni
+                                    amountInput.form.addEventListener("submit", function() {
+                                        amountInput.value = amountInput.value.replace(/\./g, "").replace(/,/g, "");
+                                    });
+                                });
+                            </script>
+
                             <div class="mb-3">
                                 <label class="form-label">Tujuan Donasi</label>
                                 <select name="purpose" class="form-select" required>
@@ -222,23 +243,3 @@
     </section>
 
 </x-layouts>
-
-<script>
-    document.querySelector('input[name="amount"]').addEventListener('input', function() {
-        const val = this.value;
-        if (val.includes('.')) {
-            const [intPart, decPart] = val.split('.');
-            if (intPart.length > 10 || decPart.length > 2) {
-                this.setCustomValidity('Jumlah maksimal 12 digit dengan 2 desimal.');
-            } else {
-                this.setCustomValidity('');
-            }
-        } else {
-            if (val.length > 10) {
-                this.setCustomValidity('Jumlah maksimal 10 digit.');
-            } else {
-                this.setCustomValidity('');
-            }
-        }
-    });
-</script>

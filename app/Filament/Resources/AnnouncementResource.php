@@ -13,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Actions\ActionGroup;
 
 class AnnouncementResource extends Resource
 {
@@ -78,17 +79,21 @@ class AnnouncementResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('view')
-                    ->label('Lihat')
-                    ->icon('heroicon-o-eye')
-                    ->color('info')
-                    ->action(function (Announcement $record, $livewire) {
-                        $livewire->emit('openAnnouncementModal', $record->id);
-                    })
-                    ->modalHeading('Detail Pengumuman')
-                    ->modalSubheading(fn(Announcement $record) => $record->title)
-                    ->modalContent(fn(Announcement $record) => view('filament.custom.announcement-view', ['record' => $record]))
+                ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\Action::make('view')
+                        ->label('Lihat')
+                        ->icon('heroicon-o-eye')
+                        ->color('info')
+                        ->action(function (Announcement $record, $livewire) {
+                            $livewire->emit('openAnnouncementModal', $record->id);
+                        })
+                        ->modalHeading('Detail Pengumuman')
+                        ->modalSubheading(fn(Announcement $record) => $record->title)
+                        ->modalContent(fn(Announcement $record) => view('filament.custom.announcement-view', ['record' => $record])),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

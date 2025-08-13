@@ -13,6 +13,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Actions\ActionGroup;
+
 
 class CabangResource extends Resource
 {
@@ -95,7 +97,11 @@ class CabangResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                 ActionGroup::make([
+                     Tables\Actions\ViewAction::make(),
+                     Tables\Actions\EditAction::make(),
+                     Tables\Actions\DeleteAction::make(),
+                 ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

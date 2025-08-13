@@ -31,6 +31,7 @@ class About extends Page
         $this->form->fill([
             'thumbnail' => $this->record->thumbnail,
             'description' => $this->record->description,
+            'link' => $this->record->link,
             'visi' => $this->record->visi,
             'misi' => $this->record->misi,
             'images' => $this->record->images,
@@ -62,6 +63,7 @@ class About extends Page
                                     '1:1',
                                 ])
                                 ->default(null),
+                            Forms\Components\TextInput::make('link')->label('Link youtube tentang gereja'),
                             Forms\Components\RichEditor::make('description')
                                 ->disableToolbarButtons([
                                     'attachFiles',
@@ -168,6 +170,7 @@ class About extends Page
         $this->record->update([
             'thumbnail' => $data['thumbnail'],
             'description' => $data['description'],
+            'link' => $data['link'],
             'visi' => $data['visi'],
             'misi' => $data['misi'],
             'images' => $data['images'],

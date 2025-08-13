@@ -150,7 +150,7 @@
                         <td>{{ \Carbon\Carbon::parse($service->held_at)->translatedFormat('l, d F Y') }}</td>
                         <td>{{ $service->start_time }} - {{ $service->end_time }}</td>
                         <td>{{ $service->location ?? '-' }}</td>
-                        <td colspan="2" style="text-align: center;">Belum ada petugas</td>
+                        <td colspan="{{ $type == 'FA' ? 3 : 2 }}" style="text-align: center;">Belum ada petugas</td>
                     </tr>
                 @endif
             @empty

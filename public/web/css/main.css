@@ -905,10 +905,17 @@ section,
   position: relative;
   padding: 2rem;
   border-radius: 12px;
-  background-color: rgba(31, 41, 55, 0.5); /* zinc-800 dengan transparansi */
-  backdrop-filter: blur(4px); /* efek blur agar elegan */
-  color: #f9fafb; /* zinc-50 agar teks kontras */
+  /* background-color: rgba(31, 41, 55, 0); bening */
+  /* backdrop-filter: blur(4px); efek blur */
+  color: #f9fafb; /* warna teks */
 }
+
+.hero h2,
+.hero p {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.553); /* bayangan tipis */
+  /* text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.427); bayangan tipis */
+}
+
 
 
 .hero h2 {
@@ -3213,3 +3220,29 @@ section,
             height: 100%;
             object-fit: cover;
         }
+
+
+        .photo-card {
+                        background: white;
+                        /* Bingkai putih */
+                        padding: 8px;
+                        /* Ketebalan bingkai */
+                        border-radius: 6px;
+                        /* Sudut membulat */
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                        /* Bayangan halus */
+                        transition: transform 0.2s ease, box-shadow 0.2s ease;
+                    }
+
+                    .photo-card img {
+                        width: 100%;
+                        height: auto;
+                        border-radius: 4px;
+                        /* Sudut foto */
+                        display: block;
+                    }
+
+                    .photo-card:hover {
+                        transform: translateY(-4px);
+                        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+                    }

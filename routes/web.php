@@ -5,7 +5,11 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CabangController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DonasiController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\GalleryVideoController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -16,6 +20,20 @@ Route::get('/announcements', [AnnouncementController::class, 'index'])->name('an
 Route::post('/announcement/view/{id}', [AnnouncementController::class, 'incrementView'])->name('announcements.increment-view');
 
 Route::get('/about', [AboutController::class, 'index'])->name('about');
+
+Route::get('/service', [ServiceController::class, 'index'])->name('service');
+
+Route::get('/service/{type}', [ServiceController::class, 'show'])->name('service.show');
+
+Route::get('/program', [ProgramController::class, 'index'])->name('program');
+
+Route::get('/program/{type}', [ProgramController::class, 'show'])->name('program.show');
+
+Route::get('/gallery/{eventable_type}', [GalleryController::class, 'index'])->name('gallery');
+
+Route::get('/gallery/show/{id}', [GalleryController::class, 'show'])->name('gallery-detail');
+
+Route::get('/gallery-video/{eventable_type}', [GalleryVideoController::class, 'index'])->name('gallery-video');
 
 Route::get('/cabang', [CabangController::class, 'index'])->name('cabang');
 

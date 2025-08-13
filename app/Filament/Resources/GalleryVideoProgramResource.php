@@ -15,6 +15,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Actions\ActionGroup;
+
 
 class GalleryVideoProgramResource extends Resource
 {
@@ -86,7 +88,7 @@ class GalleryVideoProgramResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('eventable_video.title')
+                Tables\Columns\TextColumn::make('eventable.title')
                     ->label('Jadwal Ibadah Terkait')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('title')
@@ -100,9 +102,9 @@ class GalleryVideoProgramResource extends Resource
                 Tables\Columns\TextColumn::make('published_at')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('views')
-                    ->numeric()
-                    ->sortable(),
+                // Tables\Columns\TextColumn::make('views')
+                //     ->numeric()
+                //     ->sortable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
@@ -120,7 +122,11 @@ class GalleryVideoProgramResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -26,7 +26,7 @@ class Group extends Model
 
     public function leaderUser()
     {
-        return $this->belongsTo(User::class, 'leader');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function officer_service_fas()

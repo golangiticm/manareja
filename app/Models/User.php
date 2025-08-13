@@ -62,7 +62,7 @@ class User extends Authenticatable
 
     public function leadedGroups()
     {
-        return $this->hasMany(Group::class, 'leader');
+        return $this->hasMany(Group::class, 'user_id');
     }
 
     public function jemaat()

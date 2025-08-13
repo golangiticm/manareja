@@ -15,6 +15,8 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Wizard;
+use Filament\Tables\Actions\ActionGroup;
+
 
 class CsrResource extends Resource
 {
@@ -68,7 +70,7 @@ class CsrResource extends Resource
                                 ->schema([
                                     Forms\Components\TextInput::make('title')
                                         ->required(),
-                                        // ->dehydrated(true),
+                                    // ->dehydrated(true),
                                     Forms\Components\FileUpload::make('thumbnail')
                                         ->image()
                                         ->imageEditor()
@@ -126,7 +128,11 @@ class CsrResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
