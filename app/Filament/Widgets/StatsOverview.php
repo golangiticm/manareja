@@ -17,8 +17,17 @@ class StatsOverview extends BaseWidget
 
         return [
 
-            Stat::make('Total Donasi', 'Rp. ' . number_format(
-                Donation::where('is_approved', true)->sum('amount'),
+            Stat::make('Total Donasi Gereja', 'Rp. ' . number_format(
+                Donation::where('is_approved', true)->where('type', 'brc')->sum('amount'),
+                0,
+                ',',
+                '.'
+            ))
+                ->description('Akumulasi seluruh donasi yang disetujui')
+                ->descriptionIcon('heroicon-m-banknotes')
+                ->color('success'),
+            Stat::make('Total Donasi Yayasan', 'Rp. ' . number_format(
+                Donation::where('is_approved', true)->where('type', 'yys')->sum('amount'),
                 0,
                 ',',
                 '.'

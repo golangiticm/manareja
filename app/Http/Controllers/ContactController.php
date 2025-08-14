@@ -46,12 +46,14 @@ class ContactController extends Controller
         $setting = SettingApp::first();
 
         // Pastikan ada isinya dan dalam bentuk array
-        if ($setting && is_array($setting->emails) && count($setting->emails) > 0) {
-            $firstEmail = $setting->emails[0]['email'] ?? null;
+        // Cek apakah sudah ada email admin
+        if (!$setting || !is_array($setting->emails) || count($setting->emails) === 0) {
+            return back()->with('error', 'Belum tersedia inisialisasi mail instansi. Mohon tunggu beberapa saat.');
         }
 
+        $firstEmail = $setting->emails[0]['email'] ?? null;
         // Kirim email ke admin
-        Mail::to($firstEmail ?? 'restoredatakuliahku@gmail.com')->send(new ContactMessageMail($validated));
+        Mail::to($firstEmail)->send(new ContactMessageMail($validated));
 
         return back()->with('success', 'Pesan Anda berhasil dikirim.');
     }

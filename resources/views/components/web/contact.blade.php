@@ -10,6 +10,15 @@
             });
         </script>
     @endif
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "{{ session('error') }}",
+            });
+        </script>
+    @endif
     <div class="page-title dark-background">
         <div class="container position-relative">
             <h1>Contact</h1>

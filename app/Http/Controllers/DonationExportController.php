@@ -12,9 +12,11 @@ class DonationExportController extends Controller
     {
         $purpose = $request->get('purpose');
         $approved = $request->get('approved');
+        $type = $request->get('type');
 
+        // dd($type);
         return Excel::download(
-            new DonationsExport($purpose, $approved),
+            new DonationsExport($purpose, $approved, $type),
             'filtered-donations.xlsx'
         );
     }

@@ -12,23 +12,30 @@ class DonasiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(string $type)
     {
-        $banks = Bank::where('type', 'brc')->get();
-        $qrcodes = Qris::where('type', 'brc')->get();
-        $donationPurposes = [
-            '000' => 'Persembahan',
-            '010' => 'Persepuluhan',
-            '020' => 'Pembangunan',
-            '005' => 'Diakonia/Peduli Kasih',
-            '015' => 'Ucapan Syukur',
-            '025' => 'HUT/Natal/Paskah',
-            '030' => 'Misi',
-            '035' => 'Komitmen Videotron',
-        ];
-        $donations = Donation::with('user')->where('is_approved', true)->latest()->paginate(6);
+        $banks = Bank::where('type', $type)->get();
+        $qrcodes = Qris::where('type', $type)->get();
+        if ($type == 'brc') {
+            $donationPurposes = [
+                '000' => 'Persembahan',
+                '010' => 'Persepuluhan',
+                '020' => 'Pembangunan',
+                '005' => 'Diakonia/Peduli Kasih',
+                '015' => 'Ucapan Syukur',
+                '025' => 'HUT/Natal/Paskah',
+                '030' => 'Misi',
+                '035' => 'Komitmen Videotron',
+            ];
+        } else {
+            $donationPurposes = [
+                'sd' => 'SD',
+                'smp' => 'SMP',
+            ];
+        }
+        $donations = Donation::with('user')->where('type', $type)->where('is_approved', true)->latest()->paginate(6);
 
-        return view('components.web.donasi', compact('banks', 'qrcodes', 'donationPurposes', 'donations'));
+        return view('components.web.donasi', compact('banks', 'qrcodes', 'donationPurposes', 'donations', 'type'));
     }
 
     /**
@@ -42,7 +49,7 @@ class DonasiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, string $type)
     {
         $data = $request->validate([
             'donor_name' => 'required|string|max:255',
@@ -51,6 +58,8 @@ class DonasiController extends Controller
             'purpose' => 'required|string|max:255',
             'message' => 'nullable|string',
         ]);
+
+        $data['type'] = $type;
 
         // dd($data);
         if ($request->hasFile('proof_path')) {

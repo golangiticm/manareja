@@ -12,6 +12,7 @@ class DonationsExport implements FromCollection, WithHeadings
     public function __construct(
         protected ?string $purpose = null,
         protected ?bool $isApproved = null,
+        protected ?string $type = null,
     ) {}
 
     public function collection()
@@ -20,6 +21,9 @@ class DonationsExport implements FromCollection, WithHeadings
 
         if ($this->purpose) {
             $query->where('purpose', $this->purpose);
+        }
+        if ($this->type) {
+            $query->where('type', $this->type);
         }
 
         if (!is_null($this->isApproved)) {
@@ -49,6 +53,8 @@ class DonationsExport implements FromCollection, WithHeadings
             '025' => 'HUT/Natal/Paskah',
             '030' => 'Misi',
             '035' => 'Komitmen Videotron',
+            'sd' => 'SD',
+            'smp' => 'SMP',
         ][$code] ?? $code;
     }
 

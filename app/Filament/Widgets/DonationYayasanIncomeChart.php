@@ -6,10 +6,9 @@ use App\Models\Donation;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Carbon;
 
-class DonationIncomeChart extends ChartWidget
+class DonationYayasanIncomeChart extends ChartWidget
 {
-
-    protected static ?string $heading = 'Grafik Pendapatan Donasi Gereja Tahunan';
+    protected static ?string $heading = 'Grafik Pendapatan Donasi Yayasan Tahunan';
 
     protected static ?int $sort = 2;
 
@@ -20,7 +19,7 @@ class DonationIncomeChart extends ChartWidget
         $donations = Donation::selectRaw('MONTH(created_at) as month, SUM(amount) as total')
             ->whereYear('created_at', $year)
             ->where('is_approved', true)
-            ->where('type', 'brc')
+            ->where('type', 'yys')
             ->groupBy('month')
             ->orderBy('month')
             ->pluck('total', 'month');

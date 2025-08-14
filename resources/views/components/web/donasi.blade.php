@@ -1,11 +1,11 @@
 <x-layouts title="Donasi">
     <div class="page-title dark-background">
         <div class="container position-relative">
-            <h1>Donasi</h1>
+            <h1>Donasi {{ $type == 'brc' ? 'Gereja' : 'Yayasan' }}</h1>
             <nav class="breadcrumbs">
                 <ol>
                     <li><a href="{{ route('home') }}">Home</a></li>
-                    <li class="current">Donasi</li>
+                    <li class="current">Donasi {{ $type == 'brc' ? 'Gereja' : 'Yayasan' }}</li>
                 </ol>
             </nav>
         </div>
@@ -14,7 +14,9 @@
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="fw-bold">Dukungan & Donasi</h2>
-                <p class="text-muted">Berikan dukungan terbaik Anda untuk pelayanan dan pembangunan gereja.</p>
+                <p class="text-muted">
+                    {{ $type == 'brc' ? 'Berikan dukungan terbaik Anda untuk pelayanan dan pembangunan gereja.' : 'Berikan dukungan terbaik Anda untuk program dan misi kemanusiaan yayasan.' }}
+                </p>
             </div>
 
             @if (session('success') === 'donation_success')
@@ -24,7 +26,7 @@
                         html: `
               <p>Donasi Anda telah berhasil kami terima dan sedang dalam proses verifikasi oleh admin</p>
               <p>Semoga Tuhan membalas kebaikan dan kemurahan hati Anda berlipat ganda.</p>
-              <p>Terima kasih atas dukungan dan kepercayaannya kepada pelayanan gereja kami.</p>
+              <p>Terima kasih atas dukungan dan kepercayaannya kepada pelayanan kami.</p>
             `,
                         icon: 'success',
                         confirmButtonText: 'Amin',
@@ -116,7 +118,8 @@
                 <div class="col-lg-6">
                     <div class="card shadow-sm border-0 rounded-4 p-4 h-100">
                         <h5 class="mb-3">Formulir Donasi</h5>
-                        <form method="POST" action="{{ route('donasi.store') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('donasi.store', ['type' => $type]) }}"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
                                 <label class="form-label">Nama Lengkap</label>
@@ -184,23 +187,11 @@
             <div class="text-center text-white mb-5">
                 <h2 class="fw-bold">Terima Kasih untuk Dukungan Anda</h2>
                 <p class="text-dark">
-                    Donasi Anda sangat berarti bagi pelayanan dan misi gereja.
+                    Donasi Anda sangat berarti bagi
+                    {{ $type == 'brc' ? 'pelayanan dan misi gereja.' : 'program dan misi kemanusiaan yayasan.' }}
                     Terima kasih atas kemurahan hati dan kepercayaannya. Tuhan memberkati. 🙏
                 </p>
             </div>
-
-            @php
-                $purposeNames = [
-                    '000' => 'Persembahan',
-                    '010' => 'Persepuluhan',
-                    '020' => 'Pembangunan',
-                    '005' => 'Diakonia/Peduli Kasih',
-                    '015' => 'Ucapan Syukur',
-                    '025' => 'HUT/Natal/Paskah',
-                    '030' => 'Misi',
-                    '035' => 'Komitmen Videotron',
-                ];
-            @endphp
 
             {{-- TABEL DONATUR --}}
             <div class="table-responsive">
@@ -222,7 +213,7 @@
                                 </td>
                                 <td>{{ $donation->donor_name ?? ($donation->user->name ?? '-') }}</td>
                                 <td>Rp {{ number_format($donation->amount, 0, ',', '.') }}</td>
-                                <td>{{ $purposeNames[$donation->purpose] ?? $donation->purpose }}</td>
+                                <td>{{ $donationPurposes[$donation->purpose] ?? $donation->purpose }}</td>
                                 <td>{{ $donation->message ?? '-' }}</td>
                                 <td>{{ $donation->created_at->translatedFormat('d F Y') }}</td>
                             </tr>

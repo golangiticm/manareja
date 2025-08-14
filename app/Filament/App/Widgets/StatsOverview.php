@@ -16,8 +16,17 @@ class StatsOverview extends BaseWidget
 
         return [
 
-            Stat::make('Total Donasi', 'Rp. ' . number_format(
-                Donation::where('is_approved', true)->where('user_id', Auth::user()->id)->sum('amount'),
+            Stat::make('Total Donasi Gereja', 'Rp. ' . number_format(
+                Donation::where('is_approved', true)->where('type', 'brc')->where('user_id', Auth::user()->id)->sum('amount'),
+                0,
+                ',',
+                '.'
+            ))
+                ->description('Akumulasi seluruh donasi yang disetujui')
+                ->descriptionIcon('heroicon-m-banknotes')
+                ->color('success'),
+            Stat::make('Total Donasi Yayasan', 'Rp. ' . number_format(
+                Donation::where('is_approved', true)->where('type', 'yys')->where('user_id', Auth::user()->id)->sum('amount'),
                 0,
                 ',',
                 '.'
@@ -28,7 +37,7 @@ class StatsOverview extends BaseWidget
             Stat::make('Announcement', Announcement::where('is_publish', true)->count())
                 ->description('Pengumuman Terbaru')
                 ->descriptionIcon('heroicon-m-megaphone')
-                ->color('danger'), 
+                ->color('danger'),
         ];
     }
 }

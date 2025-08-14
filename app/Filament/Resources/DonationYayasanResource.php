@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DonationResource\Pages;
-use App\Filament\Resources\DonationResource\RelationManagers;
+use App\Filament\Resources\DonationYayasanResource\Pages;
+use App\Filament\Resources\DonationYayasanResource\RelationManagers;
 use App\Models\Donation;
 use App\Models\User;
 use Filament\Forms;
@@ -16,14 +16,13 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Actions\ActionGroup;
 
-
-class DonationResource extends Resource
+class DonationYayasanResource extends Resource
 {
     protected static ?string $model = Donation::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationLabel = 'Donasi Gereja';
+    protected static ?string $navigationLabel = 'Donasi Yayasan';
 
     protected static ?string $navigationGroup = 'Donasi';
 
@@ -45,14 +44,8 @@ class DonationResource extends Resource
                             ->hiddenOn('edit'),
                         Forms\Components\Select::make('purpose')
                             ->options([
-                                '000' => 'Persembahan',
-                                '010' => 'Persepuluhan',
-                                '020' => 'Pembangunan',
-                                '005' => 'Diakonia/Peduli Kasih',
-                                '015' => 'Ucapan Syukur',
-                                '025' => 'HUT/Natal/Paskah',
-                                '030' => 'Misi',
-                                '035' => 'Komitmen Videotron',
+                                'sd' => 'SD',
+                                'smp' => 'SMP',
                             ])
                             ->searchable()
                             ->preload()
@@ -76,7 +69,7 @@ class DonationResource extends Resource
                         Forms\Components\Toggle::make('is_approved')
                             ->required(),
                         Forms\Components\Hidden::make('type')
-                            ->default('brc')
+                            ->default('yys')
                     ])
                     ->columns(3)
             ]);
@@ -100,27 +93,15 @@ class DonationResource extends Resource
                     ->badge()
                     ->formatStateUsing(function ($state) {
                         return match ($state) {
-                            '000' => 'Persembahan',
-                            '010' => 'Persepuluhan',
-                            '020' => 'Pembangunan',
-                            '005' => 'Diakonia/Peduli Kasih',
-                            '015' => 'Ucapan Syukur',
-                            '025' => 'HUT/Natal/Paskah',
-                            '030' => 'Misi',
-                            '035' => 'Komitmen Videotron',
+                            'sd' => 'SD',
+                            'smp' => 'SMP',
                             default => $state,
                         };
                     })
                     ->color(function ($state) {
                         return match ($state) {
-                            '000' => 'primary',
-                            '010' => 'success',
-                            '020' => 'warning',
-                            '005' => 'danger',
-                            '015' => 'info',
-                            '025' => 'gray',
-                            '030' => 'purple',
-                            '035' => 'cyan',
+                            'sd' => 'primary',
+                            'smp' => 'success',
                             default => 'secondary',
                         };
                     })
@@ -157,14 +138,8 @@ class DonationResource extends Resource
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('purpose')->options([
-                    '000' => 'Persembahan',
-                    '010' => 'Persepuluhan',
-                    '020' => 'Pembangunan',
-                    '005' => 'Diakonia/Peduli Kasih',
-                    '015' => 'Ucapan Syukur',
-                    '025' => 'HUT/Natal/Paskah',
-                    '030' => 'Misi',
-                    '035' => 'Komitmen Videotron',
+                    'sd' => 'SD',
+                    'smp' => 'SMP',
                 ])->searchable(),
                 Tables\Filters\TrashedFilter::make(),
             ])
@@ -197,9 +172,7 @@ class DonationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDonations::route('/'),
-            // 'create' => Pages\CreateDonation::route('/create'),
-            // 'edit' => Pages\EditDonation::route('/{record}/edit'),
+            'index' => Pages\ListDonationYayasans::route('/'),
         ];
     }
 
@@ -209,6 +182,6 @@ class DonationResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ])
-            ->where('type', 'brc')->with('user');
+            ->where('type', 'yys')->with('user');
     }
 }

@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Filament\Resources\DonationResource\Pages;
+namespace App\Filament\Resources\DonationYayasanResource\Pages;
 
-use App\Filament\Resources\DonationResource;
+use App\Filament\Resources\DonationYayasanResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Resources\Pages\ListRecords\Tab;
 use Filament\Forms;
 
-class ListDonations extends ListRecords
+class ListDonationYayasans extends ListRecords
 {
-    protected static string $resource = DonationResource::class;
+    protected static string $resource = DonationYayasanResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -44,7 +44,7 @@ class ListDonations extends ListRecords
                         ])
                         ->placeholder('Semua'),
                     Forms\Components\Hidden::make('type')
-                        ->default('brc'),
+                        ->default('yys'),
                 ])
                 ->action(function (array $data) {
                     $query = http_build_query([
@@ -58,28 +58,6 @@ class ListDonations extends ListRecords
         ];
     }
 
-    // public function getTabs1(): array
-    // {
-    //     return [
-    //         'all' => Tab::make('Semua'),
-    //         '000' => Tab::make('Persembahan')
-    //             ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '000')),
-    //         '010' => Tab::make('Persepuluhan')
-    //             ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '010')),
-    //         '020' => Tab::make('Pembangunan')
-    //             ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '020')),
-    //         '005' => Tab::make('Diakonia')
-    //             ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '005')),
-    //         '015' => Tab::make('Ucapan Syukur')
-    //             ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '015')),
-    //         '025' => Tab::make('HUT/Natal/Paskah')
-    //             ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '025')),
-    //         '030' => Tab::make('Misi')
-    //             ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '030')),
-    //         '035' => Tab::make('Komitmen Videotron')
-    //             ->modifyQueryUsing(fn(Builder $query) => $query->where('purpose', '035')),
-    //     ];
-    // }
     public function getTabs(): array
     {
         return [

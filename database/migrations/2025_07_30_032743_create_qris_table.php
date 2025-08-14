@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('qris', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->enum('type', ['brc', 'yyp', 'yys']);
+            $table->enum('type', ['brc', 'yys']);
             $table->string('atas_nama');
             $table->string('qr_code');
             $table->softDeletes();

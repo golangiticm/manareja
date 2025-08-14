@@ -37,9 +37,9 @@ Route::get('/gallery-video/{eventable_type}', [GalleryVideoController::class, 'i
 
 Route::get('/cabang', [CabangController::class, 'index'])->name('cabang');
 
-Route::get('/donasi', [DonasiController::class, 'index'])->name('donasi');
+Route::get('/donasi/{type}', [DonasiController::class, 'index'])->name('donasi');
 
-Route::post('/donasi', [DonasiController::class, 'store'])->name('donasi.store');
+Route::post('/donasi/{type}', [DonasiController::class, 'store'])->name('donasi.store');
 
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 

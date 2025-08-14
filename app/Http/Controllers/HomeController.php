@@ -17,14 +17,12 @@ class HomeController extends Controller
      */
     public function __invoke()
     {
-        $home = Home::first();
         $jemaat = Jemaat::count();
-        $service = Service::count();
-        $program = Program::count();
-        $donasi = Donation::where('is_approved', true)->sum('amount');
+        $donasiBRC = Donation::where('is_approved', true)->where('type','brc')->sum('amount');
+        $donasiYYS = Donation::where('is_approved', true)->where('type','yys')->sum('amount');
         $announcements = Announcement::where('is_publish', true)->orderByDesc('published_at')
             ->take(6) // atau paginate()
             ->get();
-        return view('components.web.home', compact('announcements', 'jemaat', 'service', 'program', 'donasi',));
+        return view('components.web.home', compact('announcements', 'jemaat', 'donasiYYS', 'donasiBRC'));
     }
 }

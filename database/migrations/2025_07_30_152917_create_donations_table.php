@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('user_id')->nullable();
             $table->string('donor_name')->nullable();
+             $table->enum('type', ['brc', 'yys'])->nullable();
             $table->decimal('amount', 12, 2);
             $table->string('purpose');
             $table->string('proof_path')->nullable();

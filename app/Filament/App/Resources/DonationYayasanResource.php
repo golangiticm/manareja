@@ -2,9 +2,10 @@
 
 namespace App\Filament\App\Resources;
 
-use App\Filament\App\Resources\DonationResource\Pages;
-use App\Filament\App\Resources\DonationResource\RelationManagers;
+use App\Filament\App\Resources\DonationYayasanResource\Pages;
+use App\Filament\App\Resources\DonationYayasanResource\RelationManagers;
 use App\Models\Donation;
+use App\Models\DonationYayasan;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Form;
@@ -15,14 +16,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 
-class DonationResource extends Resource
+class DonationYayasanResource extends Resource
 {
     protected static ?string $model = Donation::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    
-    protected static ?string $navigationLabel = 'Donasi Gereja';
-    
+
+    protected static ?string $navigationLabel = 'Donasi Yayasan';
+
     protected static ?string $navigationGroup = 'Donasi';
 
     public static function form(Form $form): Form
@@ -43,14 +44,8 @@ class DonationResource extends Resource
                         Forms\Components\Select::make('purpose')
                             ->label('Tujuan Donasi')
                             ->options([
-                                '000' => 'Persembahan',
-                                '010' => 'Persepuluhan',
-                                '020' => 'Pembangunan',
-                                '005' => 'Diakonia/Peduli Kasih',
-                                '015' => 'Ucapan Syukur',
-                                '025' => 'HUT/Natal/Paskah',
-                                '030' => 'Misi',
-                                '035' => 'Komitmen Videotron',
+                                'sd' => 'SD',
+                                'smp' => 'SMP',
                             ])
                             ->preload()
                             ->searchable()
@@ -62,10 +57,11 @@ class DonationResource extends Resource
                         Forms\Components\Textarea::make('message')
                             ->columnSpanFull(),
                         Forms\Components\Hidden::make('type')
-                            ->default('brc')
+                            ->default('yys')
                     ])->columns(2)
             ]);
     }
+
 
     public static function table(Table $table): Table
     {
@@ -78,27 +74,15 @@ class DonationResource extends Resource
                     ->badge()
                     ->formatStateUsing(function ($state) {
                         return match ($state) {
-                            '000' => 'Persembahan',
-                            '010' => 'Persepuluhan',
-                            '020' => 'Pembangunan',
-                            '005' => 'Diakonia/Peduli Kasih',
-                            '015' => 'Ucapan Syukur',
-                            '025' => 'HUT/Natal/Paskah',
-                            '030' => 'Misi',
-                            '035' => 'Komitmen Videotron',
+                            'sd' => 'SD',
+                            'smp' => 'SMP',
                             default => $state,
                         };
                     })
                     ->color(function ($state) {
                         return match ($state) {
-                            '000' => 'primary',
-                            '010' => 'success',
-                            '020' => 'warning',
-                            '005' => 'danger',
-                            '015' => 'info',
-                            '025' => 'gray',
-                            '030' => 'purple',
-                            '035' => 'cyan',
+                            'sd' => 'primary',
+                            'smp' => 'success',
                             default => 'secondary',
                         };
                     })
@@ -141,7 +125,7 @@ class DonationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDonations::route('/'),
+            'index' => Pages\ListDonationYayasans::route('/'),
         ];
     }
 
@@ -152,6 +136,6 @@ class DonationResource extends Resource
                 SoftDeletingScope::class,
             ])
             ->where('user_id', Auth::user()->id)
-            ->where('type', 'brc');
+            ->where('type', 'yys');
     }
 }

@@ -68,7 +68,8 @@
                             </x-layouts.header.link>
                         </li>
                         <li>
-                            <x-layouts.header.link href="{{ route('gallery-video', ['eventable_type' => 'program']) }}">
+                            <x-layouts.header.link
+                                href="{{ route('gallery-video', ['eventable_type' => 'program']) }}">
                                 Video
                             </x-layouts.header.link>
                         </li>
@@ -81,11 +82,27 @@
                 Cabang
             </x-layouts.header.link>
         </li>
-        <li>
+        <li class="dropdown"><a href="#"><span>Donasi</span> <i
+                    class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+
+                <li>
+                    <x-layouts.header.link href="{{ route('donasi', ['type' => 'brc']) }}">
+                        Gereja
+                    </x-layouts.header.link>
+                </li>
+                <li>
+                    <x-layouts.header.link href="{{ route('donasi', ['type' => 'yys']) }}">
+                        Yayasan
+                    </x-layouts.header.link>
+                </li>
+            </ul>
+        </li>
+        {{-- <li>
             <x-layouts.header.link href="{{ route('donasi') }}">
                 Donation
             </x-layouts.header.link>
-        </li>
+        </li> --}}
         <li>
             <x-layouts.header.link href="{{ route('contact') }}">
                 Contact

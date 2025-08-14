@@ -173,46 +173,25 @@
 
             <div class="row gy-4">
 
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-4 col-md-6">
                     <div class="stats-item text-center w-100 h-100">
                         <span data-purecounter-start="0" data-purecounter-end="{{ $jemaat }}"
                             data-purecounter-duration="1" class="purecounter"></span>
                         <p>Jemaat Terdaftar</p>
                     </div>
                 </div><!-- End Stats Item -->
-
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-4 col-md-6">
                     <div class="stats-item text-center w-100 h-100">
-                        <span data-purecounter-start="0" data-purecounter-end="{{ $service }}"
-                            data-purecounter-duration="1" class="purecounter"></span>
-                        <p>Layanan yang Telah Dilaksanakan</p>
-                    </div>
-                </div><!-- End Stats Item -->
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="stats-item text-center w-100 h-100">
-                        <span data-purecounter-start="0" data-purecounter-end="{{ $program }}"
-                            data-purecounter-duration="1" class="purecounter"></span>
-                        <p>Program yang Telah Dilaksanakan</p>
-                    </div>
-                </div><!-- End Stats Item -->
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="stats-item text-center w-100 h-100">
-                        <span>{{ number_format($donasi, 0, ',', '.') }}</span>
-                        <p>Donasi Terkumpul</p>
+                        <span>{{ number_format($donasiBRC, 0, ',', '.') }}</span>
+                        <p>Donasi Gereja Terkumpul</p>
                     </div>
                 </div>
-
-                {{-- <script>
-                    document.addEventListener("DOMContentLoaded", function() {
-                        const counter = document.getElementById("donasi-counter");
-                        counter.addEventListener("animationend", function() {
-                            let value = parseInt(counter.innerText.replace(/\D/g, ''));
-                            counter.innerText = value.toLocaleString('id-ID'); // format ribuan
-                        });
-                    });
-                </script> --}}
+                <div class="col-lg-4 col-md-6">
+                    <div class="stats-item text-center w-100 h-100">
+                        <span>{{ number_format($donasiYYS, 0, ',', '.') }}</span>
+                        <p>Donasi Yayasan Terkumpul</p>
+                    </div>
+                </div>
             </div>
 
         </div>

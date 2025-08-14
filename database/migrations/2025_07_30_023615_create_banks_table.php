@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('banks', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->enum('type', ['brc', 'yyp', 'yys']);
+            $table->enum('type', ['brc', 'yys']);
             $table->string('nama_bank');
             $table->string('no_rekening');
             $table->string('atas_nama');
