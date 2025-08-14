@@ -68,7 +68,7 @@ class DonasiController extends Controller
 
         Donation::create($data);
 
-        return redirect()->route('donasi')->with('success', 'donation_success');
+        return redirect()->route('donasi', ['type' => $type])->with('success', 'donation_success');
     }
 
     /**

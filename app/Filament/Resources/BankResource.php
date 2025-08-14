@@ -38,8 +38,7 @@ class BankResource extends Resource
                             ->label('Peruntukan')
                             ->options([
                                 'brc' => 'Gereja BRC Sangatta',
-                                'yyp' => 'Yayasan->Paud',
-                                'yys' => 'Yayasan->SD',
+                                'yys' => 'Yayasan',
                             ])
                             ->required(),
                         Forms\Components\TextInput::make('nama_bank')
@@ -73,16 +72,14 @@ class BankResource extends Resource
                     ->formatStateUsing(function ($state) {
                         return match ($state) {
                             'brc' => 'Gereja BRC Sangatta',
-                            'yyp' => 'Yayasan → Paud',
-                            'yys' => 'Yayasan → SD',
+                            'yys' => 'Yayasan',
                             default => $state,
                         };
                     })
                     ->color(function ($state) {
                         return match ($state) {
                             'brc' => 'primary',
-                            'yyp' => 'success',
-                            'yys' => 'warning',
+                            'yys' => 'success',
                             default => 'gray',
                         };
                     })

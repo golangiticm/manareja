@@ -25,9 +25,7 @@ class ListQris extends ListRecords
             'all' => Tab::make('Semua'),
             'brc' => Tab::make('Gereja BRC Sangatta')
                 ->modifyQueryUsing(fn(Builder $query) => $query->where('type', 'brc')),
-            'yyp' => Tab::make('Yayasan → Paud')
-                ->modifyQueryUsing(fn(Builder $query) => $query->where('type', 'yyp')),
-            'yys' => Tab::make('Yayasan → SD')
+            'yys' => Tab::make('Yayasan')
                 ->modifyQueryUsing(fn(Builder $query) => $query->where('type', 'yys')),
         ];
     }

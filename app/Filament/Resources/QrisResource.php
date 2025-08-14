@@ -65,16 +65,14 @@ class QrisResource extends Resource
                     ->formatStateUsing(function ($state) {
                         return match ($state) {
                             'brc' => 'Gereja BRC Sangatta',
-                            'yyp' => 'Yayasan → Paud',
-                            'yys' => 'Yayasan → SD',
+                            'yys' => 'Yayasan',
                             default => $state,
                         };
                     })
                     ->color(function ($state) {
                         return match ($state) {
                             'brc' => 'primary',
-                            'yyp' => 'success',
-                            'yys' => 'warning',
+                            'yys' => 'success',
                             default => 'gray',
                         };
                     })

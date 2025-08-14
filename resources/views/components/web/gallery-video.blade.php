@@ -22,7 +22,7 @@
                     <div class="col-lg-4">
                         <div class="sidebar">
                             <div class="search-widget widget-item">
-                                <form action="{{ route('gallery', ['eventable_type' => $eventable_type]) }}"
+                                <form action="{{ route('gallery-video', ['eventable_type' => $eventable_type]) }}"
                                     method="GET">
                                     <input type="text" name="video_search" placeholder="search..."
                                         value="{{ request('search') }}">
