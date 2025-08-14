@@ -292,13 +292,13 @@ class Service extends Page
         ]);
 
         $this->recordWbi->update([
-            'thumbnail'   => $data['ibis_thumbnail'] ?? null,
-            'description' => $data['ibis_description'] ?? null,
+            'thumbnail'   => $data['wbis_thumbnail'] ?? null,
+            'description' => $data['wbis_description'] ?? null,
         ]);
 
         $this->recordWn->update([
-            'thumbnail'   => $data['ins_thumbnail'] ?? null,
-            'description' => $data['ins_description'] ?? null,
+            'thumbnail'   => $data['wns_thumbnail'] ?? null,
+            'description' => $data['wns_description'] ?? null,
         ]);
 
         // lanjut untuk Mog, Rbi, Ir, Wbi, Wn...

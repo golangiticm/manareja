@@ -39,7 +39,11 @@ class AdminPanelProvider extends PanelProvider
                 MenuItem::make()
                     ->label('Dashboard')
                     ->icon('heroicon-o-cog-6-tooth')
-                    ->url('/app')
+                    ->url('/app'),
+                MenuItem::make()
+                    ->label('Web')
+                    ->icon('heroicon-o-globe-alt')
+                    ->url('/')
             ])
             ->favicon(asset('images/favicon.png'))
             ->brandLogo(asset('images/favicon.png'))->brandLogoHeight('3.2rem')

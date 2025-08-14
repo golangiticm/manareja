@@ -80,7 +80,7 @@
                                 </div>
                             @empty
                                 <div class="col-12">
-                                    <div class="text-center py-5">
+                                    <div class="text-center py-12">
                                         <h4 class="text-muted">Tidak ada gallery yang diupload</h4>
                                         <p>Silakan kembali lagi nanti untuk melihat update terbaru.</p>
                                     </div>

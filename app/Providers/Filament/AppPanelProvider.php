@@ -41,7 +41,11 @@ class AppPanelProvider extends PanelProvider
                     ->label('Admin')
                     ->icon('heroicon-o-cog-6-tooth')
                     ->url('/admin')
-                    ->visible(fn(): bool => Auth::user()->is_admin)
+                    ->visible(fn(): bool => Auth::user()->is_admin),
+                MenuItem::make()
+                    ->label('Web')
+                    ->icon('heroicon-o-globe-alt')
+                    ->url('/')
             ])
             ->favicon(asset('images/favicon.png'))
             ->brandLogo(asset('images/favicon.png'))->brandLogoHeight('3.2rem')
